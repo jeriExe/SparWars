@@ -83,7 +83,7 @@ class PlayBullet:
            pass
             
             
-    def draw(self):
+    def draw(self, screen):
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), self.radius)
 
 play1 = Player()
@@ -105,7 +105,7 @@ while running:
 
     for pbullet in play_bullets:
         pbullet.bullet_move()
-        pbullet.draw()
+        pbullet.draw(screen)
 
     pygame.display.flip()
 
