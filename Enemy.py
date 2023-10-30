@@ -1,5 +1,5 @@
 import pygame
-import Player
+import Player  
 from random import *
 
 pygame.init()
@@ -9,11 +9,13 @@ screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height)) #set up screen bounds
 
 x = randint(50, 750) #
-y = randint(50, 550) #randomly spawn instances of enemy 
+y = randint(50, 550) #randomly spawn instances of Enemy 
 
-class enemy():
+px = 300
+py = 300
+
+class Enemy():
     def __init__(self, x, y):
-        super().__init__()
 
         self.hp = 100
         self.original_image = self.image = pygame.image.load("ship_little.png")
@@ -40,31 +42,32 @@ class enemy():
             self.veloY = -self.veloY
 
     def draw(self, screen):
-        if pygame.time.get_ticks() % 60 == 0:
-            b = bullet(x, y)
-            bullet_list.append(b)
+        
             
         screen.blit(self.image, self.rect.topleft)
 
-class bullet():
-    def __init__(self, x , y):
+class Bullet():
+    def __init__(self, x, y):
         self.bx = x
         self.by = y
         self.image = pygame.draw.circle(screen, (255, 0, 0), (self.bx, self.by), 5)
         
-    def bullet_vector(self):
-        diff_x = (x - self.bx)
-        diff_y = (y - self.by)
+    def Bullet_vector(self):
+        diff_x = (Player.px - self.bx)
+        diff_y = (Player.py - self.by)
         
-        self.bx += (diff_x/10)
-        self.by += (diff_y/10)
+        self.bx += (diff_x/100)
+        self.by += (diff_y/100)
+        pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), 5)
         
+play1 = Player.Player()
 
-evils = [enemy(x, y),
-         enemy(randint(50, 750), randint(50, 550)),
-         enemy(randint(50, 750), randint(50, 550))]
+evils = [Enemy(x, y),
+         Enemy(randint(50, 750), randint(50, 550)),
+         Enemy(randint(50, 750), randint(50, 550))]
 
-bullet_list = []
+Bullet_list = []
+
 
 
 clock = pygame.time.Clock() # set FPS
@@ -72,6 +75,7 @@ clock = pygame.time.Clock() # set FPS
 running = True
 
 while running: # mimicking game cycle
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT: #quit if clicked on X
             running = False
@@ -79,12 +83,23 @@ while running: # mimicking game cycle
 
     screen.fill((0, 0, 0)) # wipe screen
     
-    for bullet in bullet_list:
-        bullet.bullet_vector()
+    if pygame.time.get_ticks() % 60 == 0:
+            b1 = Bullet(x, y)
+            Bullet_list.append(b1)
+    
+    for bullet in Bullet_list:
+        bullet.Bullet_vector()
     
     for enemy in evils:
         enemy.movement() # call movement
         enemy.draw(screen) #draw new xy
+    
+    # the following is the player code
+    keys = pygame.key.get_pressed()    
+    rot_image, rot_image_rect, angle = play1.rotate()
+    px, py = play1.move(px, py, keys)
+    play1.draw_cursor(screen)
+    screen.blit(rot_image, rot_image_rect)
 
     pygame.display.flip()
     clock.tick(60)
