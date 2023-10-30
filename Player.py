@@ -43,7 +43,7 @@ class Player:
             py = 0 + 0.5 * ship.get_height()
         return px, py
 
-    def draw_cursor(self):
+    def draw_cursor(self, screen):
         aim_px, aim_py = pygame.mouse.get_pos()
         pygame.draw.circle(screen, (0, 255, 0), (aim_px, aim_py), 15, 3)
 
@@ -100,7 +100,7 @@ while running:
     rot_image, rot_image_rect, angle = play1.rotate()
 
     px, py = play1.move(px, py, keys)
-    play1.draw_cursor()
+    play1.draw_cursor(screen)
     screen.blit(rot_image, rot_image_rect)
 
     for pbullet in play_bullets:
