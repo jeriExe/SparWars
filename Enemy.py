@@ -1,4 +1,5 @@
 import pygame
+import Player
 from random import *
 
 pygame.init()
@@ -7,14 +8,14 @@ screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height)) #set up screen bounds
 
-x = randint(1, 799) #
-y = randint(1, 599) #randomly spawn instances of Enemy 
+x = randint(50, 750) #
+y = randint(50, 550) #randomly spawn instances of enemy 
 
-class Enemy():
+class enemy():
     def __init__(self, x, y):
         super().__init__()
 
-        self.hp, self.dmg = 100, 10
+        self.hp = 100
         self.original_image = self.image = pygame.image.load("ship_little.png")
         self.rect = self.image.get_rect(topleft=(x, y))  
         self.veloY = 1
@@ -39,12 +40,31 @@ class Enemy():
             self.veloY = -self.veloY
 
     def draw(self, screen):
+        if pygame.time.get_ticks() % 60 == 0:
+            b = bullet(x, y)
+            bullet_list.append(b)
+            
         screen.blit(self.image, self.rect.topleft)
 
+class bullet():
+    def __init__(self, x , y):
+        self.bx = x
+        self.by = y
+        self.image = pygame.draw.circle(screen, (255, 0, 0), (self.bx, self.by), 5)
+        
+    def bullet_vector(self):
+        diff_x = (x - self.bx)
+        diff_y = (y - self.by)
+        
+        self.bx += (diff_x/10)
+        self.by += (diff_y/10)
+        
 
+evils = [enemy(x, y),
+         enemy(randint(50, 750), randint(50, 550)),
+         enemy(randint(50, 750), randint(50, 550))]
 
-evil = Enemy(x, y)
-
+bullet_list = []
 
 
 clock = pygame.time.Clock() # set FPS
@@ -58,9 +78,13 @@ while running: # mimicking game cycle
             pygame.quit()
 
     screen.fill((0, 0, 0)) # wipe screen
-
-    evil.movement() # call movement
-    evil.draw(screen) #draw new xy
+    
+    for bullet in bullet_list:
+        bullet.bullet_vector()
+    
+    for enemy in evils:
+        enemy.movement() # call movement
+        enemy.draw(screen) #draw new xy
 
     pygame.display.flip()
     clock.tick(60)
