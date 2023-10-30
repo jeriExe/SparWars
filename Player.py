@@ -2,8 +2,8 @@ import pygame
 import math
 pygame.init()
 
-x = 100
-y = 300
+px = 100
+py = 300
 
 class Player:
     def __init__(self):
@@ -11,7 +11,7 @@ class Player:
         self.hp = 100
         self.dmg = 30
 
-    def move(self, x, y, keys):
+    def move(self, px, py, keys):
         ship = pygame.image.load("ship_little.png").convert_alpha()
         move_left = keys[pygame.K_a]
         move_right = keys[pygame.K_d]
@@ -19,39 +19,39 @@ class Player:
         move_up = keys[pygame.K_w]
 
         if move_left:
-            x -= 1.5
+            px -= 1.5
         if move_right:
-            x += 1.5
+            px += 1.5
         if move_down:
-            y += 1.5
+            py += 1.5
         if move_up:
-            y -= 1.5
+            py -= 1.5
             
-        if x >= 1000-0.5*ship.get_width():
-            x = 1000-0.5*ship.get_width()
-        if x <= 0 + .5*ship.get_width():
-            x = 0 + .5*ship.get_width()
-        if y >= 700-0.5*ship.get_height():
-            y = 700-0.5*ship.get_height()
-        if y <= 0 + 0.5*ship.get_height():
-            y = 0 + 0.5*ship.get_height()
-        return x, y
+        if px >= 1000-0.5*ship.get_width():
+            px = 1000-0.5*ship.get_width()
+        if px <= 0 + .5*ship.get_width():
+            px = 0 + .5*ship.get_width()
+        if py >= 700-0.5*ship.get_height():
+            py = 700-0.5*ship.get_height()
+        if py <= 0 + 0.5*ship.get_height():
+            py = 0 + 0.5*ship.get_height()
+        return px, py
 
     def draw_cursor(self):
-        aim_x, aim_y = pygame.mouse.get_pos()
-        pygame.draw.circle(screen, (0, 255, 0), (aim_x, aim_y), 15, 3)
+        aim_px, aim_py = pygame.mouse.get_pos()
+        pygame.draw.circle(screen, (0, 255, 0), (aim_px, aim_py), 15, 3)
     
     def rotate(self):
         
         ship = pygame.image.load("ship_little.png").convert_alpha()
         
-        player_pos  = [x, y]
+        player_pos  = [px, py]
         ship_rect = ship.get_rect(center = player_pos)
     
 
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        rel_x, rel_y = mouse_x - x, mouse_y - y
-        angle = (180 / math.pi) * -math.atan2(rel_y, rel_x)
+        mouse_px, mouse_y = pygame.mouse.get_pos()
+        rel_px, rel_py = mouse_px - px, mouse_y - py
+        angle = (180 / math.pi) * -math.atan2(rel_py, rel_px)
         rot_image = pygame.transform.rotate(ship, angle)
         rot_image_rect = rot_image.get_rect(center = ship_rect.center)
     
@@ -60,23 +60,13 @@ class Player:
 class PlayBullet:
     def __init__(self):
         pass
-
-    def bullet_rotate(self):
-        bullet = pygame.image.load("pbullet_small.png").convert_alpha()
-        player_pos  = [x, y]
-        bull_rect = bullet.get_rect(center = player_pos)
-        
-        rot_bull = pygame.transform.rotate(bullet, angle)
-        rot_bull_rect = rot_bull.get_rect(center = bull_rect.center)
-        spawn = keys[pygame.K_r]
-        if spawn:
-            show = (screen.blit(rot_bull, rot_bull_rect.topleft))
-            return show
     def bullet_move(self):
         pass
-            
+    
+play_bullets = []            
 Play1 = Player()
 screen = pygame.display.set_mode((1000, 700))
+
 running = True
 while running:
     screen.fill((0, 0, 0))
@@ -87,10 +77,8 @@ while running:
     keys = pygame.key.get_pressed()    
     rot_image, rot_image_rect, angle = Play1.rotate()
         
-    PlayBullet.bullet_rotate(keys)
-    x, y = Play1.move(x, y, keys)
+    px, py = Play1.move(px, py, keys)
     Play1.draw_cursor()
-    PlayBullet.bullet_rotate(keys)
     screen.blit(rot_image, rot_image_rect)
       
     
