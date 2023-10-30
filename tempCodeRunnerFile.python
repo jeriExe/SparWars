@@ -5,24 +5,14 @@ pygame.init()
 
 screen_width = 800
 screen_height = 600
-screen = pygame.display.set_mode((screen_width, screen_height))  # set up screen bounds
+screen = pygame.display.set_mode((screen_width, screen_height))  # Set up screen bounds
 
-class Bullet:
-    def __init__(self, x, y, direction):
-        self.rect = pygame.Rect(x, y, 5, 20)
-        self.direction = direction
-        self.speed = -5
-
-    def move(self):
-        self.rect.y -= self.speed * self.direction.y
-        self.rect.x -= self.speed * self.direction.x
-
-    def draw(self, screen):
-        pygame.draw.circle(screen, (255, 0, 0), (self.rect.x, self.rect.y), 10, 5)
+x = randint(50, 750)  # Randomly spawn instances of Enemy
+y = randint(50, 550)  # Randomly spawn instances of Enemy
 
 class Enemy:
     def __init__(self, x, y):
-        self.hp, self.dmg = 100, 10
+        self.hp = 100
         self.original_image = self.image = pygame.image.load("ship_little.png")
         self.rect = self.image.get_rect(topleft=(x, y))
         self.veloY = 1
@@ -35,8 +25,8 @@ class Enemy:
 
     def movement(self):
         mouse_position = pygame.mouse.get_pos()
-        direction_vector = pygame.math.Vector2(mouse_position[0] - self.rect.centerx, mouse_position[1] - self.rect.centery)
-        self.rotate(direction_vector.angle_to(pygame.math.Vector2(1, 0)))
+        direction = pygame.math.Vector2(mouse_position[0] - self.rect.centerx, mouse_position[1] - self.rect.centery)
+        self.rotate(direction.angle_to(pygame.math.Vector2(1, 0)))
 
         self.rect.x += self.veloX
         self.rect.y += self.veloY
@@ -45,43 +35,52 @@ class Enemy:
             self.veloX = -self.veloX
         if not 0 <= self.rect.y <= self.screen_height - self.rect.height:
             self.veloY = -self.veloY
-        return direction_vector
 
     def draw(self, screen):
         screen.blit(self.image, self.rect.topleft)
 
-    def shoota(self, bullets, keys, direction):
-        if keys[pygame.K_a]:
-            bullet = Bullet(self.rect.centerx, self.rect.top, direction.normalize())
-            bullets.append(bullet)
+class Bullet:
+    def __init__(self, bx, by):
+        self.bx = bx
+        self.by = by
 
-bullets = []
-evils = [Enemy(randint(20, screen_width-20), randint(20, screen_height-20)),
-         Enemy(randint(20, screen_width-20), randint(20, screen_height-20)),
-         Enemy(randint(20, screen_width-20), randint(20, screen_height-20))]
+    def bullet_vector(self, target_x, target_y):
+        diff_x = target_x - self.bx
+        diff_y = target_y - self.by
 
-clock = pygame.time.Clock()  # set FPS
+        self.bx += diff_x / 30
+        self.by += diff_y / 30
 
+        pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), 5)
+
+evils = [Enemy(x, y),
+         Enemy(randint(50, 750), randint(50, 550)),
+         Enemy(randint(50, 750), randint(50, 550))]
+
+bullet_list = []
+clock = pygame.time.Clock()  # Set FPS
 running = True
 
-while running:  # mimicking game cycle
+while running:  # Mimicking the game cycle
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:  # quit if clicked on X
+        if event.type == pygame.QUIT:  # Quit if clicked on X
             running = False
             pygame.quit()
 
-    keys = pygame.key.get_pressed()
+    screen.fill((0, 0, 0))  # Wipe the screen
 
-    screen.fill((0, 0, 0))  # wipe screen
+    if pygame.time.get_ticks() % 60 == 0:
+        for enemy in evils:
+            b1 = Bullet(enemy.rect.x, enemy.rect.y)
+            bullet_list.append(b1)
+
+    for bullet in bullet_list:
+        for enemy in evils:
+            bullet.bullet_vector(enemy.rect.x, enemy.rect.y)
 
     for enemy in evils:
-        direction = enemy.movement()  # Get the direction vector from the movement method
-        enemy.draw(screen)
-        enemy.shoota(bullets, keys, direction)  # Pass the direction vector to the shoota method
-
-    for bullet in bullets:
-        bullet.move()
-        bullet.draw(screen)
+        enemy.movement()  # Call movement
+        enemy.draw(screen)  # Draw new xy
 
     pygame.display.flip()
     clock.tick(60)
