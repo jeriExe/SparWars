@@ -1,0 +1,87 @@
+import pygame
+from random import randint
+
+pygame.init()
+
+screen_width = 800
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))  # set up screen bounds
+
+class Bullet:
+    def __init__(self, x, y, direction):
+        self.rect = pygame.Rect(x, y, 5, 20)
+        self.direction = direction
+        self.speed = -5
+
+    def move(self):
+        self.rect.y -= self.speed * self.direction.y
+        self.rect.x -= self.speed * self.direction.x
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, (255, 0, 0), (self.rect.x, self.rect.y), 10, 5)
+
+class Enemy:
+    def __init__(self, x, y):
+        self.hp, self.dmg = 100, 10
+        self.original_image = self.image = pygame.image.load("ship_little.png")
+        self.rect = self.image.get_rect(topleft=(x, y))
+        self.veloY = 1
+        self.veloX = 1
+        self.screen_width, self.screen_height = screen_width, screen_height
+
+    def rotate(self, angle):
+        self.image = pygame.transform.rotate(self.original_image, angle)
+        self.rect = self.image.get_rect(center=self.rect.center)
+
+    def movement(self):
+        mouse_position = pygame.mouse.get_pos()
+        direction_vector = pygame.math.Vector2(mouse_position[0] - self.rect.centerx, mouse_position[1] - self.rect.centery)
+        self.rotate(direction_vector.angle_to(pygame.math.Vector2(1, 0)))
+
+        self.rect.x += self.veloX
+        self.rect.y += self.veloY
+
+        if not 0 <= self.rect.x <= self.screen_width - self.rect.width:
+            self.veloX = -self.veloX
+        if not 0 <= self.rect.y <= self.screen_height - self.rect.height:
+            self.veloY = -self.veloY
+        return direction_vector
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect.topleft)
+
+    def shoota(self, bullets, keys, direction):
+        if keys[pygame.K_a]:
+            bullet = Bullet(self.rect.centerx, self.rect.top, direction.normalize())
+            bullets.append(bullet)
+
+bullets = []
+evils = [Enemy(randint(20, screen_width-20), randint(20, screen_height-20)),
+         Enemy(randint(20, screen_width-20), randint(20, screen_height-20)),
+         Enemy(randint(20, screen_width-20), randint(20, screen_height-20))]
+
+clock = pygame.time.Clock()  # set FPS
+
+running = True
+
+while running:  # mimicking game cycle
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:  # quit if clicked on X
+            running = False
+            pygame.quit()
+
+    keys = pygame.key.get_pressed()
+
+    screen.fill((0, 0, 0))  # wipe screen
+
+    for enemy in evils:
+        direction = enemy.movement()  # Get the direction vector from the movement method
+        enemy.draw(screen)
+        enemy.shoota(bullets, keys, direction)  # Pass the direction vector to the shoota method
+
+    for bullet in bullets:
+        bullet.move()
+        bullet.draw(screen)
+
+    pygame.display.flip()
+    clock.tick(60)
