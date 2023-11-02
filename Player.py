@@ -14,6 +14,7 @@ class Player:
         self.dmg = 30
 
     def move(self, px, py, keys):
+        fire = False
         ship = pygame.image.load("ship_little.png").convert_alpha()
         move_left = keys[pygame.K_a]
         move_right = keys[pygame.K_d]
@@ -29,8 +30,18 @@ class Player:
         if move_up:
             py -= 1.5
 
-        if keys[pygame.K_m]:
-            # Fire a bullet
+        left, middle, right = pygame.mouse.get_pressed()
+        left = True
+        if left:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        fire = True
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_SPACE:
+                        fire = False
+                        
+        if fire:
             play_bullets.append(PlayBullet(px, py))
 
         if px >= 1000 - 0.5 * ship.get_width():
@@ -67,24 +78,22 @@ class PlayBullet:
         self.by = by
         self.radius = 5
         self.m_x, self.m_y = pygame.mouse.get_pos()
+        
     def bullet_move(self):
         
-        diff_px = self.m_x - self.bx
-        diff_py = self.m_y - self.by
-        distance = math.sqrt(diff_px ** 2 + diff_py ** 2)
+        diff_px = (self.m_x - self.bx)
+        diff_py = (self.m_y - self.by)
+        distance = (math.sqrt(diff_px ** 2 + diff_py ** 2))
 
-        if distance > 3:
+        if distance >5 :
             speed = 10
             direction_x = diff_px / distance
             direction_y = diff_py / distance
             self.bx += speed * direction_x
             self.by += speed * direction_y
-        else:
-           pass
-            
-            
+          
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), self.radius)
+        pygame.draw.circle(screen, (255, 255, 255), (int(self.bx), int(self.by)), self.radius)
 
 play1 = Player()
 screen = pygame.display.set_mode((1000, 700))
@@ -100,12 +109,13 @@ while running:
     rot_image, rot_image_rect, angle = play1.rotate()
 
     px, py = play1.move(px, py, keys)
-    play1.draw_cursor(screen)
-    screen.blit(rot_image, rot_image_rect)
-
     for pbullet in play_bullets:
         pbullet.bullet_move()
         pbullet.draw(screen)
+    play1.draw_cursor(screen)
+    screen.blit(rot_image, rot_image_rect)
+
+    
 
     pygame.display.flip()
 
