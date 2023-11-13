@@ -8,12 +8,12 @@ screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height)) #set up screen bounds
 
-x = randint(50, 750) #
-y = randint(50, 550) #randomly spawn instances of Enemy 
+
 
 class Enemy():
     def __init__(self, x, y):
-
+        self.x = x
+        self.y = y
         self.hp = 100
         self.original_image = self.image = pygame.image.load("ship_little.png")
         self.rect = self.image.get_rect(topleft=(x, y))  
@@ -44,22 +44,23 @@ class Enemy():
         screen.blit(self.image, self.rect.topleft)
 
 class Bullet():
-    def __init__(self, x, y):
-        self.bx = x
-        self.by = y
+    def __init__(self):
+        self.bx = enemy.x
+        self.by = enemy.y
         self.image = pygame.draw.circle(screen, (255, 0, 0), (self.bx, self.by), 5)
         
     def Bullet_vector(self):
         diff_x = (Player.px - self.bx)
         diff_y = (Player.py - self.by)
         
-        self.bx += (diff_x/10)
-        self.by += (diff_y/10)
+        self.bx += (diff_x/100)
+        self.by += (diff_y/100)
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), 5)
+        return self.bx, self.by
         
 play1 = Player.Player()
 
-evils = [Enemy(x, y),
+evils = [Enemy(randint(50, 750), randint(50, 550)),
          Enemy(randint(50, 750), randint(50, 550)),
          Enemy(randint(50, 750), randint(50, 550))]
 
@@ -79,17 +80,19 @@ while running: # mimicking game cycle
 
     screen.fill((0, 0, 0)) # wipe screen
     
-    if pygame.time.get_ticks() % 60 == 0:
-            b1 = Bullet(x, y)
-            Bullet_list.append(b1)
+    for enemy in evils:
+        enemy.movement() # call movement
+        enemy.draw(screen) #draw new xy
     
     for bullet in Bullet_list:
         for enemy in evils:
             bullet.Bullet_vector()
+            
+    if pygame.time.get_ticks() % 60 == 0:
+            b1 = Bullet()
+            Bullet_list.append(b1)
     
-    for enemy in evils:
-        enemy.movement() # call movement
-        enemy.draw(screen) #draw new xy
+    
 
     pygame.display.flip()
     clock.tick(60)
