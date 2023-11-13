@@ -81,7 +81,7 @@ while running: # mimicking game cycle
     
     for enemy in evils:
         for bullet in Bullet_list:
-            bullet.Bullet_vector(enemy.rect.centerx, enemy.rect.centery)
+            bullet.Bullet_vector(Player.px, Player.py)
             
     if pygame.time.get_ticks() % 60 == 0:
         for enemy in evils:
