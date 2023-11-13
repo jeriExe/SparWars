@@ -33,6 +33,7 @@ class Player:
         left, middle, right = pygame.mouse.get_pressed()
         left = True
         if left:
+            #fire = True 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
@@ -78,22 +79,22 @@ class PlayBullet:
         self.by = by
         self.radius = 5
         self.m_x, self.m_y = pygame.mouse.get_pos()
-        
+
     def bullet_move(self):
-        
+        ship = pygame.image.load("ship_cropped.png")
         diff_px = (self.m_x - self.bx)
         diff_py = (self.m_y - self.by)
-        distance = (math.sqrt(diff_px ** 2 + diff_py ** 2))
-
-        if distance >5 :
-            speed = 10
-            direction_x = diff_px / distance
-            direction_y = diff_py / distance
-            self.bx += speed * direction_x
-            self.by += speed * direction_y
-          
+        hypo = (math.sqrt(diff_px ** 2 + diff_py ** 2))
+    
+        if hypo>15:
+            speed = 20
+            self.bx += speed * diff_px/hypo
+            self.by += speed * diff_py/hypo
+        else:
+            screen.fill((0,0,0))
+            screen.blit(ship, (self.m_x, self.m_y))
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 255, 255), (int(self.bx), int(self.by)), self.radius)
+        pygame.draw.circle(screen, (255, 0, 255), (int(self.bx), int(self.by)), self.radius)
 
 play1 = Player()
 screen = pygame.display.set_mode((1000, 700))
