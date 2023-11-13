@@ -6,8 +6,8 @@ from random import *
 
 pygame.init()
 
-screen_width = 600
-screen_height = 600
+screen_width = 1000
+screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height)) #set up screen bounds
 
 
@@ -19,8 +19,8 @@ class Enemy():
         self.hp = 100
         self.original_image = self.image = pygame.image.load("ship_little.png")
         self.rect = self.image.get_rect(topleft=(x, y))  
-        self.veloY = 1
-        self.veloX = 1
+        self.veloY = 5
+        self.veloX = 5
         
 
     def rotate(self, angle):
@@ -43,22 +43,24 @@ class Enemy():
     def draw(self, screen):
         screen.blit(self.image, self.rect.topleft)
 
+
 class Bullet():
     def __init__(self, spawnX, spawnY, playX, playY):
         self.bx = spawnX
         self.by = spawnY
-        self.image = pygame.draw.circle(screen, (255, 0, 0), (self.bx, self.by), 5)
-        self.theta = math.atan((playY - self.by)/(playX - self.bx)+0.1)
+        pygame.draw.circle(screen, (255, 0, 0), (self.bx, self.by), 5)
         
+        
+        self.theta = math.atan2(playY - self.by, playX - self.bx)
+
     def Bullet_vector(self):
+        v = 3
         
+        self.bx += v * math.cos(self.theta)
+        self.by += v * math.sin(self.theta)
         
-        v = -3
-        
-        self.bx += v*math.sin(self.theta)
-        self.by += v*math.cos(self.theta)
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), 5)
-        return self.bx, self.by
+
         
 play1 = Player.Player()
 
@@ -90,9 +92,9 @@ while running: # mimicking game cycle
         for bullet in Bullet_list:
             bullet.Bullet_vector()
             
-    if pygame.time.get_ticks() % 60 == 0:
+    if pygame.time.get_ticks() % 60 == 0: 
         for enemy in evils:
-            b1 = Bullet(enemy.rect.centerx, enemy.rect.centery, 300, 300)
+            b1 = Bullet(enemy.rect.centerx, enemy.rect.centery, Player.px, Player.py)
             Bullet_list.append(b1)
     
     
