@@ -1,7 +1,7 @@
 import pygame
 import Player
 import math  
-from random import *
+from random import randint
 
 
 pygame.init()
