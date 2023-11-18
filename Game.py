@@ -9,15 +9,11 @@ screen_width = 1000
 screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-evils = [en.Enemy(randint(50, 550), randint(50, 550)),
-         en.Enemy(randint(50, 550), randint(50, 550)),
-         en.Enemy(randint(50, 550), randint(50, 550))]
-
-Bullet_list = []
-
 clock = pygame.time.Clock() # set FPS
 
 running = True
+
+sean = pl.Player()
 
 while running: # mimicking game cycle
     
@@ -30,26 +26,34 @@ while running: # mimicking game cycle
 
     screen.fill((0, 0, 0)) # wipe screen
     
-    for enemy in evils:
+    for enemy in en.evils:
         
-        enemy.movement() # call movement
+        enemy.movement(pl.px, pl.py) # call movement
         enemy.draw(screen) #draw new xy
         
-        for bullet in Bullet_list:
+        for bullet in en.Bullet_list:
             
-            bullet.Bullet_vector()
+            bullet.Bullet_vector(screen)
     
         
     if pygame.time.get_ticks() % 60 == 0:
          
-        for enemy in evils:
-            b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
-            Bullet_list.append(b1)
+        for enemy in en.evils:
+            b1 = en.Bullet(screen, enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
+            en.Bullet_list.append(b1)
 
-            
-        if len(Bullet_list) > 50:
-            Bullet_list = Bullet_list[(len(Bullet_list)//2) :]
+        if len(en.Bullet_list) > 50:
+            en.Bullet_list = en.Bullet_list[(len(en.Bullet_list)//2) :]
     
+    keys = pygame.key.get_pressed()
+    rot_image, rot_image_rect, angle = sean.rotate()
+
+    pl.px, pl.py = sean.move(pl.px, pl.py, keys)
+    for pbullet in pl.play_bullets:
+        pbullet.bullet_move()
+        pbullet.draw(screen)
+    sean.draw_cursor(screen)
+    screen.blit(rot_image, rot_image_rect)
     
     pygame.display.flip()
     

@@ -1,11 +1,10 @@
 import pygame
 import math
 
-pygame.init()
-
 px = 100
 py = 300
 play_bullets = []
+
 class Player:
     def __init__(self):
         super().__init__()
@@ -21,13 +20,13 @@ class Player:
         move_up = keys[pygame.K_w]
 
         if move_left:
-            px -= 1.5
+            px -= 5.5
         if move_right:
-            px += 1.5
+            px += 5.5
         if move_down:
-            py += 1.5
+            py += 5.5
         if move_up:
-            py -= 1.5
+            py -= 5.5
 
         left, middle, right = pygame.mouse.get_pressed()
         left = True
@@ -82,7 +81,7 @@ class PlayBullet:
         self.theta = math.atan2(self.m_y - self.by, self.m_x - self.bx)
     def bullet_move(self):
         
-        speed = 3
+        speed = 10
         self.bx += speed * math.cos(self.theta)
         self.by += speed * math.sin(self.theta)
         
@@ -92,30 +91,3 @@ class PlayBullet:
     def draw(self, screen):
         #if self.distance > 5:
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), self.radius)
-'''
-play1 = Player()
-screen = pygame.display.set_mode((1000, 700))
-
-running = True
-while running:
-    screen.fill((0, 0, 0))
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    keys = pygame.key.get_pressed()
-    rot_image, rot_image_rect, angle = play1.rotate()
-
-    px, py = play1.move(px, py, keys)
-    for pbullet in play_bullets:
-        pbullet.bullet_move()
-        pbullet.draw(screen)
-    play1.draw_cursor(screen)
-    screen.blit(rot_image, rot_image_rect)
-
-    
-
-    pygame.display.flip()
-
-pygame.quit()
-'''
