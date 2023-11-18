@@ -79,7 +79,7 @@ class PlayBullet:
         self.by = by
         self.radius = 5
         self.m_x, self.m_y = pygame.mouse.get_pos()
-        self.flame = pygame.image.load("kisspng-pixel-art-nyan-cat-5b36ad7a374e81.0343808815303100102266.png")
+        self.flame = pygame.image.load("splosion.png")
     def bullet_move(self):
         diff_px = (self.m_x - self.bx)
         diff_py = (self.m_y - self.by)
@@ -91,12 +91,14 @@ class PlayBullet:
             direction_y = diff_py/self.distance
             self.bx += speed * direction_x
             self.by += speed * direction_y
-        if self.distance < 15:
-            screen.blit(self.flame, (self.bx, self.by))
-            #check for collision    
+        if self.distance < 10:
+            pass
+            screen.blit(self.flame, (self.bx - 25, self.by - 20))
+            
+                
             
     def draw(self, screen):
-        if self.distance > 5:
+        if self.distance > 10:
             pygame.draw.circle(screen, (255, 0, 255), (int(self.bx), int(self.by)), self.radius)
 
 play1 = Player()
