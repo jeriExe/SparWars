@@ -86,7 +86,7 @@ evils = [Enemy(randint(50, 550), randint(50, 550)),
 Bullet_list = []
 
 
-
+'''
 clock = pygame.time.Clock() # set FPS
 
 running = True
@@ -129,3 +129,4 @@ while running: # mimicking game cycle
     pygame.display.flip()
     
     clock.tick(60)
+'''

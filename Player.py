@@ -92,7 +92,7 @@ class PlayBullet:
     def draw(self, screen):
         #if self.distance > 5:
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), self.radius)
-
+'''
 play1 = Player()
 screen = pygame.display.set_mode((1000, 700))
 
@@ -118,3 +118,4 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
+'''

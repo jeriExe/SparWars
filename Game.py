@@ -13,6 +13,7 @@ evils = [en.Enemy(randint(50, 550), randint(50, 550)),
          en.Enemy(randint(50, 550), randint(50, 550)),
          en.Enemy(randint(50, 550), randint(50, 550))]
 
+Bullet_list = []
 
 clock = pygame.time.Clock() # set FPS
 
@@ -42,9 +43,9 @@ while running: # mimicking game cycle
     if pygame.time.get_ticks() % 60 == 0:
          
         for enemy in evils:
-            b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, 100, 100)
+            b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
             Bullet_list.append(b1)
-            print(len(Bullet_list))
+
             
         if len(Bullet_list) > 50:
             Bullet_list = Bullet_list[(len(Bullet_list)//2) :]
