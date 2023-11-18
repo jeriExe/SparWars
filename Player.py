@@ -6,7 +6,6 @@ pygame.init()
 px = 100
 py = 300
 play_bullets = []
-trick = []
 class Player:
     def __init__(self):
         super().__init__()
@@ -80,24 +79,19 @@ class PlayBullet:
         self.radius = 5
         self.m_x, self.m_y = pygame.mouse.get_pos()
         self.flame = pygame.image.load("splosion.png")
+        self.theta = math.atan2(self.m_y - self.by, self.m_x - self.bx)
     def bullet_move(self):
-        diff_px = (self.m_x - self.bx)
-        diff_py = (self.m_y - self.by)
-        self.distance = (math.sqrt(diff_px ** 2 + diff_py ** 2))
-    
-        if self.distance>10:
-            speed = 10
-            direction_x = diff_px/self.distance
-            direction_y = diff_py/self.distance
-            self.bx += speed * direction_x
-            self.by += speed * direction_y
-        if self.distance < 15:
-            screen.blit(self.flame, (self.bx-20, self.by-20))
-            #check for collision    
+        
+        speed = 3
+        self.bx += speed * math.cos(self.theta)
+        self.by += speed * math.sin(self.theta)
+        
+        #if self.distance < 15:
+            
             
     def draw(self, screen):
-        if self.distance > 5:
-            pygame.draw.circle(screen, (255, 0, 255), (int(self.bx), int(self.by)), self.radius)
+        #if self.distance > 5:
+        pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), self.radius)
 
 play1 = Player()
 screen = pygame.display.set_mode((1000, 700))
