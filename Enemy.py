@@ -1,7 +1,7 @@
 import pygame
 import Player
 import math  
-from random import *
+from random import randint
 
 
 pygame.init()
@@ -57,6 +57,7 @@ class Enemy():
 
 class Bullet():
     def __init__(self, spawnX, spawnY, playX, playY):
+        
         self.bx = spawnX
         self.by = spawnY
         
@@ -76,7 +77,7 @@ class Bullet():
         
 
         
-play1 = Player.Player()
+
 
 evils = [Enemy(randint(50, 550), randint(50, 550)),
          Enemy(randint(50, 550), randint(50, 550)),
@@ -91,26 +92,34 @@ clock = pygame.time.Clock() # set FPS
 running = True
 
 while running: # mimicking game cycle
+    
     for event in pygame.event.get():
+        
         if event.type == pygame.QUIT: #quit if clicked on X
+            
             running = False
             pygame.quit()
 
     screen.fill((0, 0, 0)) # wipe screen
     
     for enemy in evils:
+        
         enemy.movement() # call movement
         enemy.draw(screen) #draw new xy
-    
-    for enemy in evils:
+        
         for bullet in Bullet_list:
-            bullet.Bullet_vector()
             
-    if pygame.time.get_ticks() % 60 == 0: 
+            bullet.Bullet_vector()
+    
+        
+        
+    if pygame.time.get_ticks() % 60 == 0:
+         
         for enemy in evils:
             b1 = Bullet(enemy.rect.centerx, enemy.rect.centery, Player.px, Player.py)
             Bullet_list.append(b1)
             print(len(Bullet_list))
+            
         if len(Bullet_list) > 50:
             Bullet_list = Bullet_list[(len(Bullet_list)//2) :]
     
@@ -118,4 +127,5 @@ while running: # mimicking game cycle
     
 
     pygame.display.flip()
+    
     clock.tick(60)
