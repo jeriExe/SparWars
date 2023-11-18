@@ -54,12 +54,18 @@ class Bullet():
         self.theta = math.atan2(playY - self.by, playX - self.bx)
 
     def Bullet_vector(self):
+        
+        if len(Bullet_list) > 10:
+            pass
+        
         v = 3
         
         self.bx += v * math.cos(self.theta)
         self.by += v * math.sin(self.theta)
         
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), 5)
+        
+        
 
         
 play1 = Player.Player()
@@ -96,6 +102,7 @@ while running: # mimicking game cycle
         for enemy in evils:
             b1 = Bullet(enemy.rect.centerx, enemy.rect.centery, Player.px, Player.py)
             Bullet_list.append(b1)
+            print(len(Bullet_list))
     
     
     
