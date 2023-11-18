@@ -77,7 +77,7 @@ class Bullet():
         
 
         
-play1 = Player.Player()
+
 
 evils = [Enemy(randint(50, 550), randint(50, 550)),
          Enemy(randint(50, 550), randint(50, 550)),
