@@ -31,7 +31,6 @@ while running: # mimicking game cycle
         enemy.update(screen) #draw new xy
         
         for bullet in en.Bullet_list:
-            
             bullet.Bullet_vector(screen)
     
         
@@ -41,7 +40,7 @@ while running: # mimicking game cycle
             b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
             en.Bullet_list.append(b1)
 
-        if len(en.Bullet_list) > 50:
+        if len(en.Bullet_list) > 30:
             en.Bullet_list = en.Bullet_list[(len(en.Bullet_list)//2) :]
     
     keys = pygame.key.get_pressed()
