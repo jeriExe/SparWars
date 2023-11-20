@@ -12,7 +12,6 @@ class Enemy():
         self.veloY = self.veloX = randvelo
          
         
-
     def rotate(self, angle):
         self.image = pygame.transform.rotate(self.original_image, angle)
         self.rect = self.image.get_rect(center=self.rect.center)
@@ -44,43 +43,49 @@ class Enemy():
     def update(self, screen):
         screen.blit(self.image, self.rect.topleft)
         for bullet in Bullet_list:
+            
             if self.rect.colliderect(bullet.rect) and bullet.ttc < 0:
                 self.hp -= 5
                 Bullet_list.remove(bullet)
+                print("colisisiis")
+
+            else:
+                bullet.ttc -= 1
+                
         if self.hp < 10:
                 evils.remove(self)   
+                print("dead")
         
 
 
 class Bullet():
     def __init__(self, spawnX, spawnY, playX, playY):
         
-        self.ttc = 40
+        self.ttc = 5000
         self.bx = spawnX
         self.by = spawnY
         
         self.radius = 5
         
-        
-        self.rect = pygame.Rect(self.bx - self.radius, self.by - self.radius, 2 * self.radius, 2 * self.radius)
+        self.rect = pygame.Rect(self.bx - self.radius, self.by - self.radius, 2, 2)
         
         self.theta = math.atan2(playY - self.by, playX - self.bx)
 
     def Bullet_vector(self, screen):
         
-        v = 5
+        print(self.ttc)
+        
+        v = 6
         
         self.bx += v * math.cos(self.theta)
         self.by += v * math.sin(self.theta)
         
-        self.ttc -= 1
-        
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), self.radius)
         
         
-evils = [Enemy(randint(50, 550), randint(50, 550), randint(2,4)), 
-         Enemy(randint(50, 550), randint(50, 550), randint(4,6)),
-         Enemy(randint(50, 550), randint(50, 550), randint(4,6))]
-
+evils = [Enemy(randint(50, 550), randint(50, 550), 5), 
+         #Enemy(randint(50, 550), randint(50, 550), 5),
+         #Enemy(randint(50, 550), randint(50, 550), 5)]
+]
 Bullet_list = []
 
