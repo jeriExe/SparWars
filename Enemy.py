@@ -3,14 +3,14 @@ import math
 from random import randint
 
 class Enemy():
-    def __init__(self, x, y):
+    def __init__(self, x, y, randvelo):
         self.x = x
         self.y = y
         self.hp = 100
         self.original_image = self.image = pygame.image.load("CABT13.png")
         self.rect = self.image.get_rect(topleft=(x, y))  
-        self.veloY = 5
-        self.veloX = 5
+        self.veloY = self.veloX = randvelo
+         
         
 
     def rotate(self, angle):
@@ -41,12 +41,13 @@ class Enemy():
             self.veloY = -self.veloY
         
 
-    def draw(self, screen):
+    def update(self, screen):
         screen.blit(self.image, self.rect.topleft)
+        if 
 
 
 class Bullet():
-    def __init__(self, screen, spawnX, spawnY, playX, playY):
+    def __init__(self, spawnX, spawnY, playX, playY):
         
         self.bx = spawnX
         self.by = spawnY
@@ -60,14 +61,12 @@ class Bullet():
         self.bx += v * math.cos(self.theta)
         self.by += v * math.sin(self.theta)
         
-        
-        
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), 5)
         
         
-evils = [Enemy(randint(50, 550), randint(50, 550)),
-         Enemy(randint(50, 550), randint(50, 550)),
-         Enemy(randint(50, 550), randint(50, 550))]
+evils = [Enemy(randint(50, 550), randint(50, 550), randint(4,6)), 
+         Enemy(randint(50, 550), randint(50, 550), randint(4,6)),
+         Enemy(randint(50, 550), randint(50, 550), randint(4,6))]
 
 Bullet_list = []
 

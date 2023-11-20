@@ -28,7 +28,7 @@ while running: # mimicking game cycle
     for enemy in en.evils:
         
         enemy.movement(pl.px, pl.py) # call movement
-        enemy.draw(screen) #draw new xy
+        enemy.update(screen) #draw new xy
         
         for bullet in en.Bullet_list:
             
@@ -38,7 +38,7 @@ while running: # mimicking game cycle
     if pygame.time.get_ticks() % 60 == 0:
          
         for enemy in en.evils:
-            b1 = en.Bullet(screen, enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
+            b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
             en.Bullet_list.append(b1)
 
         if len(en.Bullet_list) > 50:
