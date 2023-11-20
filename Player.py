@@ -29,9 +29,9 @@ class Player:
             py -= 5.5
 
         left, middle, right = pygame.mouse.get_pressed()
-        left = True
+        #left = True
         if left:
-            #fire = True 
+            fire = True 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
@@ -90,4 +90,4 @@ class PlayBullet:
             
     def draw(self, screen):
         #if self.distance > 5:
-        pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), self.radius)
+        pygame.draw.circle(screen, (45, 102, 194), (int(self.bx), int(self.by)), self.radius)

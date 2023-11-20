@@ -7,7 +7,7 @@ class Enemy():
         self.x = x
         self.y = y
         self.hp = 100
-        self.original_image = self.image = pygame.image.load("ship_little.png")
+        self.original_image = self.image = pygame.image.load("CABT13.png")
         self.rect = self.image.get_rect(topleft=(x, y))  
         self.veloY = 5
         self.veloX = 5
@@ -25,19 +25,19 @@ class Enemy():
         self.rect.y += self.veloY
 
         if self.rect.left < 0:
-            self.rect.left = 0
+            self.rect.left = 10
             self.veloX = -self.veloX
 
         if self.rect.right > 1000:
-            self.rect.right = 1000
+            self.rect.right = 990
             self.veloX = -self.veloX
 
         if self.rect.top < 0:
-            self.rect.top = 0
+            self.rect.top = 10
             self.veloY = -self.veloY
 
         if self.rect.bottom > 700:
-            self.rect.bottom = 700
+            self.rect.bottom = 695
             self.veloY = -self.veloY
         
 
@@ -51,8 +51,6 @@ class Bullet():
         self.bx = spawnX
         self.by = spawnY
         
-        pygame.draw.circle(screen, (255, 0, 0), (self.bx, self.by), 5)
-        
         self.theta = math.atan2(playY - self.by, playX - self.bx)
 
     def Bullet_vector(self, screen):
@@ -61,6 +59,8 @@ class Bullet():
         
         self.bx += v * math.cos(self.theta)
         self.by += v * math.sin(self.theta)
+        
+        
         
         pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), 5)
         

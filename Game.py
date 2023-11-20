@@ -1,7 +1,6 @@
 import pygame
 import Enemy as en
 import Player as pl
-from random import randint
 
 pygame.init()
 
@@ -24,7 +23,7 @@ while running: # mimicking game cycle
             running = False
             pygame.quit()
 
-    screen.fill((0, 0, 0)) # wipe screen
+    screen.fill((59, 21, 28)) # wipe screen
     
     for enemy in en.evils:
         
