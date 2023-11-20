@@ -23,8 +23,16 @@ while running: # mimicking game cycle
             running = False
             pygame.quit()
 
-    #screen.fill((59, 21, 28)) # wipe screen
+    screen.fill((59, 21, 28)) # wipe screen
     
+    for enemy in en.evils:
+        
+        enemy.movement(pl.px, pl.py) # call movement
+        enemy.update(screen) #draw new xy
+        
+        for bullet in en.Bullet_list:
+            bullet.Bullet_vector(screen)
+        
     if pygame.time.get_ticks() % 60 == 0:
          
         for enemy in en.evils:
@@ -32,18 +40,7 @@ while running: # mimicking game cycle
             en.Bullet_list.append(b1)
 
         if len(en.Bullet_list) > 30:
-            en.Bullet_list = en.Bullet_list[(len(en.Bullet_list)//2) :]
-            
-    
-    for enemy in en.evils:
-        
-        for bullet in en.Bullet_list:
-            bullet.Bullet_vector(screen)
-        
-        enemy.movement(pl.px, pl.py) # call movement
-        enemy.update(screen) #draw new xy
-        
-        
+            en.Bullet_list = en.Bullet_list[(len(en.Bullet_list)//2) :]    
     
     
     keys = pygame.key.get_pressed()
