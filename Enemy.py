@@ -45,7 +45,7 @@ class Enemy():
         screen.blit(self.image, self.rect.topleft)
         for bullet in Bullet_list:
             if self.rect.colliderect(bullet.rect) and bullet.ttc < 0:
-                self.hp -= 10
+                self.hp -= 5
                 Bullet_list.remove(bullet)
         if self.hp < 10:
                 evils.remove(self)   
