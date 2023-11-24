@@ -33,7 +33,7 @@ while running: # mimicking game cycle
         for bullet in en.Bullet_list:
             bullet.Bullet_vector(screen)
         
-    if pygame.time.get_ticks() % 60 == 0:
+    if pygame.time.get_ticks() %60 == 0:
          
         for enemy in en.evils:
             b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
@@ -56,3 +56,4 @@ while running: # mimicking game cycle
     pygame.display.flip()
     
     clock.tick(60)
+    

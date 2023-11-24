@@ -47,10 +47,11 @@ class Enemy():
             if self.rect.colliderect(bullet.rect) and bullet.ttc < 0:
                 self.hp -= 10
                 Bullet_list.remove(bullet)
-                print("colisisiis")
+                print("collided")
 
             else:
                 bullet.ttc -= 1
+                pass
                 
         if self.hp < 0:
                 evils.remove(self)   
@@ -61,24 +62,25 @@ class Enemy():
 class Bullet():
     def __init__(self, spawnX, spawnY, playX, playY):
         
-        self.ttc = 30
-        self.bx = spawnX
-        self.by = spawnY
+        self.ttc = 20
         
         self.radius = 5
         
-        self.rect = pygame.Rect(self.bx, self.by, 1, 1)
+        self.rect = pygame.Rect(spawnX +1, spawnY+1, 2, 2)
         
-        self.theta = math.atan2(playY - self.by, playX - self.bx)
+        self.theta = math.atan2(playY - spawnY, playX - spawnX)
+
+
+
 
     def Bullet_vector(self, screen):
         
-        v = 4
+        v = 8
         
-        self.bx += v * math.cos(self.theta)
-        self.by += v * math.sin(self.theta)
+        self.rect.centerx += int(v * math.cos(self.theta))
+        self.rect.centery += int(v * math.sin(self.theta))
         
-        pygame.draw.circle(screen, (255, 0, 0), (int(self.bx), int(self.by)), self.radius)
+        pygame.draw.circle(screen, (255, 0, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)
         
         
 evils = [Enemy(randint(50, 550), randint(50, 550), 4), 
