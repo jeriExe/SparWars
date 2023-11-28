@@ -15,15 +15,13 @@ class Enemy():
         self.original_image = self.image = pygame.image.load("CABT13.png") #sets the image
         self.rect = self.image.get_rect(topleft=(x, y)) #sets rect object 
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value 
-         
-        
-    def rotate(self, angle): #rotates the enemy accordingly 
-        self.image = pygame.transform.rotate(self.original_image, angle) #uses pygame image rotation 
-        self.rect = self.image.get_rect(center=self.rect.center) #sets the rect obj to the image rotation 
 
     def movement(self, playX, playY): 
         direction = pygame.math.Vector2(playX - self.rect.x, playY - self.rect.y) #uses vector to get aim direction
-        self.rotate(direction.angle_to(pygame.math.Vector2(1, 0))) #calls rotate to vector 
+        self.image = pygame.transform.rotate(self.original_image, direction.angle_to(pygame.math.Vector2(0,0))) #uses pygame image rotation with respect to origin
+        self.rect = self.image.get_rect(center=self.rect.center) #sets the rect obj to the image rotation about the center 
+        
+        
 
         self.rect.x += self.veloX #displaces by x velo
         self.rect.y += self.veloY #displaces by y velo
@@ -51,16 +49,16 @@ class Enemy():
         screen.blit(self.image, self.rect.topleft)
         for bullet in Bullet_list: #runs through bullet list
             
-            if self.rect.colliderect(bullet.rect) and bullet.ttc < 0: #if there is a collision and it has been the neccessary number of ticks
+            if self.rect.colliderect(bullet.rect) and bullet.ttc < 0: #collision between enemy bullets, given the necessary time
                 self.hp -= 10 #remove 10 hp
                 Bullet_list.remove(bullet) #remove the bullet
 
             else:
                 bullet.ttc -= 1 #otherwise reduce #of ticks by 1
         
-        for bullet in pl.play_bullets:
-            if self.rect.colliderect(bullet.rect):
-                self.hp -=10
+        for bullet in pl.play_bullets: # 
+            if self.rect.colliderect(bullet.rect): 
+                self.hp -=10 
                 pl.play_bullets.remove(bullet)
                  
         if self.hp < 0: #if the enemy's hp falls below 0 remove it
