@@ -69,9 +69,7 @@ class Player:
             if self.ship_rect.colliderect(bullet.rect): #if there is a collision and it has been the neccessary number of ticks
                 self.hp -= 10 #remove 10 hp
                 en.Bullet_list.remove(bullet) #remove the bullet
-            if self.hp < 0:
-                #pygame.quit()
-                pass
+            
 
         
 class PlayBullet:

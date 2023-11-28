@@ -1,7 +1,7 @@
 import pygame
 import Enemy as en
 import Player as pl
-
+from random import randint
 pygame.init() #init the pygame mod
 
 screen_width = 1000
@@ -14,10 +14,15 @@ running = True #bool for while loop
 
 play1 = pl.Player()
 
-
+playing = False
 
 def gameDoStuff():
     screen.fill((59, 21, 28)) # wipe screen
+    
+    if len(en.evils) < 3:
+        if pygame.time.get_ticks() % 100 == 0:    
+            respawn = en.Enemy(randint(50, 950), randint(50, 650), randint(3,6))
+            en.evils.append(respawn)
     
     for enemy in en.evils:
         
@@ -58,7 +63,6 @@ def gameDoStuff():
     
     pygame.display.flip()
 
-playing = False
 
 def menuScreen(screen):
     fontColour = (12,123,32)
@@ -86,7 +90,10 @@ while running: # mimicking game cycle
         gameDoStuff()
     else:
         menuScreen(screen)
-            
+    
+    if play1.hp <= 0:
+        playing = False
+        
     for event in pygame.event.get():
         
         if event.type == pygame.QUIT: #quit if clicked on X
@@ -101,3 +108,5 @@ while running: # mimicking game cycle
     clock.tick(60)
 
 #meow
+
+

@@ -8,7 +8,7 @@ class Enemy():
     def __init__(self, x, y, randvelo): #all enemies inherit the following traits
         self.x = x 
         self.y = y
-        self.hp = 300 #sets x,y hp
+        self.hp = 1 #sets x,y hp
         self.original_image = self.image = pygame.image.load("CABT13.png") #sets the image
         self.rect = self.image.get_rect(topleft=(x, y)) #sets rect object 
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value 
@@ -41,13 +41,6 @@ class Enemy():
          
 
     def update(self, screen, play1): #updates anything important for enemy
-        
-        print(len(evils))
-        
-        if len(evils) < 3 or len(evils) == None:
-            if pygame.time.get_ticks() % 100 == 0:
-                respawn = Enemy(randint(50, 950), randint(50, 650), randint(3,6))
-                evils.append(respawn)
                 
         
         screen.blit(self.image, self.rect.topleft)
@@ -105,10 +98,7 @@ class Bullet():
             Bullet_list.remove(self)
         
         
-evils = [Enemy(randint(50, 950), randint(50, 650), randint(3,6)), #list of enemies to iterate through 
-         Enemy(randint(50, 950), randint(50, 650), randint(3,6)),
-         Enemy(randint(50, 950), randint(50, 650), randint(3,6))
-        ]
+evils = []
 
 Bullet_list = [] #bullet list to iterate and append when shot 
 
