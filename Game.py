@@ -45,7 +45,10 @@ def gameDoStuff():
     screen.blit(rot_image, rot_image_rect)
     
     play1.collide()
-    
+    health = int(play1.hp)
+    print(health)
+    pygame.draw.rect(screen, ((0,0,0)), pygame.Rect(30, 30, 100, 10))
+    pygame.draw.rect(screen, ((255,0,0)), pygame.Rect(30, 30, health, 10))
     pygame.display.flip()
 
 playing = False
