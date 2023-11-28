@@ -68,22 +68,26 @@ class Bullet():
         
         self.theta = math.atan2(playY - spawnY, playX - spawnX) #given an angle to compute movement 
 
+        self.v = 8
 
 
 
     def Bullet_vector(self, screen):
         
-        v = 8 #bullet velocity 
+         #bullet velocity 
         
-        self.rect.centerx += int(v * math.cos(self.theta)) #calc left/right  
-        self.rect.centery += int(v * math.sin(self.theta)) #calc up/down
+        self.rect.centerx += int(self.v * math.cos(self.theta)) #calc left/right  
+        self.rect.centery += int(self.v * math.sin(self.theta)) #calc up/down
         
-        pygame.draw.circle(screen, (255, 0, 0), ((self.rect.centerx), (self.rect.centery)), self.radius) #draw the circle 
+        pygame.draw.circle(screen, (255, 0, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)#draw the circle 
+        
+        if self.rect.centerx > 1000 or self.rect.centerx < 0 or self.rect.centery > 700 or self.rect.centerx < 0:
+            Bullet_list.remove(self)
         
         
-evils = [Enemy(randint(50, 550), randint(50, 550), randint(3,6)), #list of enemies to iterate through 
-         Enemy(randint(50, 550), randint(50, 550), randint(3,6)),
-         Enemy(randint(50, 550), randint(50, 550), randint(3,6))
+evils = [Enemy(randint(50, 950), randint(50, 650), randint(3,6)), #list of enemies to iterate through 
+         Enemy(randint(50, 950), randint(50, 650), randint(3,6)),
+         Enemy(randint(50, 950), randint(50, 650), randint(3,6))
         ]
 
 Bullet_list = [] #bullet list to iterate and append when shot 

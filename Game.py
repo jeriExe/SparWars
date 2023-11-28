@@ -37,10 +37,7 @@ while running: # mimicking game cycle
          
         for enemy in en.evils:
             b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
-            en.Bullet_list.append(b1)
-
-        if len(en.Bullet_list) > 30:
-            en.Bullet_list = en.Bullet_list[(len(en.Bullet_list)//2) :]    
+            en.Bullet_list.append(b1)  
     
     
     keys = pygame.key.get_pressed()
@@ -55,5 +52,7 @@ while running: # mimicking game cycle
     
     pygame.display.flip()
     
+    print(len(en.Bullet_list))
+     
     clock.tick(60)
     
