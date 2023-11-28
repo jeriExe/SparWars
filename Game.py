@@ -45,10 +45,17 @@ def gameDoStuff():
     screen.blit(rot_image, rot_image_rect)
     
     play1.collide()
+    
     health = int(play1.hp)
-    print(health)
     pygame.draw.rect(screen, ((0,0,0)), pygame.Rect(30, 30, 100, 10))
     pygame.draw.rect(screen, ((255,0,0)), pygame.Rect(30, 30, health, 10))
+    
+    font = pygame.font.SysFont('arial',  50)
+    text = font.render(str(pl.killed), True, (255,255,255))
+    textrect = text.get_rect()
+    textrect.center = (925, 5)
+    screen.blit(text, textrect.center)
+    
     pygame.display.flip()
 
 playing = False

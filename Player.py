@@ -85,7 +85,7 @@ class PlayBullet:
         self.theta = math.atan2(self.m_y - by, self.m_x - bx)
         
     def bullet_move(self):
-        speed = 10
+        speed = 13
         
         self.rect.centerx += int(speed * math.cos(self.theta))
         self.rect.centery += int(speed * math.sin(self.theta))
