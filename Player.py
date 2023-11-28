@@ -2,23 +2,26 @@ import pygame
 import Enemy as en
 import math
 
+#defining starting place for player ship
 px = 100
 py = 300
-play_bullets = []
-killed = 0
-class Player:
-    def __init__(self):
-        super().__init__()
-        self.hp = 100
 
-    def move(self, px, py, keys):
-        ship = pygame.image.load("ship_little.png").convert_alpha()
-        move_left = keys[pygame.K_a]
-        move_right = keys[pygame.K_d]
+play_bullets = [] #creating empty list to store bullets when fired
+killed = 0 #setting the value of enemies eliminated to zero
+
+class Player:
+    def __init__(self): #the basic values associated to the player
+        self.hp = 100 #starting hit points
+
+    def move(self, px, py, keys): #function to handle movement of player + creation of bullets
+        ship = pygame.image.load("ship_little.png").convert_alpha() #loads the png for the player ship
+        
+        move_left = keys[pygame.K_a] #defines the keys "w,a,s,d" as movement controls, detecting if any are pressed down
+        move_right = keys[pygame.K_d] #keys evaluates to a boolean, will return true if pressed down
         move_down = keys[pygame.K_s]
         move_up = keys[pygame.K_w]
 
-        if move_left:
+        if move_left: #will adjust the player position (x or y value) depending on key pressed
             px -= 5.5
         if move_right:
             px += 5.5
@@ -27,13 +30,13 @@ class Player:
         if move_up:
             py -= 5.5
 
-        left, middle, right = pygame.mouse.get_pressed()
+        left, middle, right = pygame.mouse.get_pressed() #detects if mouse/touchpad keys are clicked (boolean)
         if left:
-            if pygame.time.get_ticks() %5 == 1:
-                play_bullets.append(PlayBullet(px, py))
+            if pygame.time.get_ticks() %5 == 1: #sets a reduced rate of fire -> will create a bullet at a continuous delayed rate
+                play_bullets.append(PlayBullet(px, py)) #adds a bullet to the bullet list, with the x/y coordiantes where it was fired
                 
 
-        if px >= 1000 - 0.5 * ship.get_width():
+        if px >= 1000 - 0.5 * ship.get_width():  #checks to keep player within the screen, by adjusting x/y values if going off screen
             px = 1000 - 0.5 * ship.get_width()
         if px <= 0 + 0.5 * ship.get_width():
             px = 0 + 0.5 * ship.get_width()
@@ -41,6 +44,7 @@ class Player:
             py = 700 - 0.5 * ship.get_height()
         if py <= 0 + 0.5 * ship.get_height():
             py = 0 + 0.5 * ship.get_height()
+            
         return px, py
 
     def draw_cursor(self, screen):
