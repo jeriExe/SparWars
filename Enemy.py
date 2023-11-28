@@ -42,10 +42,12 @@ class Enemy():
 
     def update(self, screen, play1): #updates anything important for enemy
         
+        print(len(evils))
         
-        if len(evils) < 3:
-            respawn = Enemy(randint(50, 950), randint(50, 650), randint(3,6))
-            evils.append(respawn)
+        if len(evils) < 3 or len(evils) == None:
+            if pygame.time.get_ticks() % 100 == 0:
+                respawn = Enemy(randint(50, 950), randint(50, 650), randint(3,6))
+                evils.append(respawn)
                 
         
         screen.blit(self.image, self.rect.topleft)
@@ -73,8 +75,7 @@ class Enemy():
                     play1.hp = 200
                 else:
                     play1.hp += 50
-                
-                print(pl.killed)               
+                           
         
 class Bullet():
     def __init__(self, spawnX, spawnY, playX, playY): #bullet inherits 

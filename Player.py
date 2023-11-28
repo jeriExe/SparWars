@@ -70,8 +70,8 @@ class Player:
                 self.hp -= 10 #remove 10 hp
                 en.Bullet_list.remove(bullet) #remove the bullet
             if self.hp < 0:
-                pygame.quit()
-
+                #pygame.quit()
+                pass
 
         
 class PlayBullet:
