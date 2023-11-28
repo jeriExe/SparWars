@@ -3,26 +3,27 @@ import math
 from random import randint
 
 class Enemy():
-    def __init__(self, x, y, randvelo):
-        self.x = x
+    def __init__(self, x, y, randvelo): #all enemies inherit the following traits
+        self.x = x 
         self.y = y
-        self.hp = 100
-        self.original_image = self.image = pygame.image.load("CABT13.png")
-        self.rect = self.image.get_rect(topleft=(x, y))  
-        self.veloY = self.veloX = randvelo
+        self.hp = 100 #sets x,y hp
+        self.original_image = self.image = pygame.image.load("CABT13.png") #sets the image
+        self.rect = self.image.get_rect(topleft=(x, y)) #sets rect object 
+        self.veloY = self.veloX = randvelo #gives the x,y velocities a random value 
          
         
-    def rotate(self, angle):
-        self.image = pygame.transform.rotate(self.original_image, angle)
-        self.rect = self.image.get_rect(center=self.rect.center)
+    def rotate(self, angle): #rotates the enemy accordingly 
+        self.image = pygame.transform.rotate(self.original_image, angle) #uses pygame image rotation 
+        self.rect = self.image.get_rect(center=self.rect.center) #sets the rect obj to the image rotation 
 
-    def movement(self, playX, playY):
-        direction = pygame.math.Vector2(playX - self.rect.x, playY - self.rect.y)
-        self.rotate(direction.angle_to(pygame.math.Vector2(1, 0)))
+    def movement(self, playX, playY): 
+        direction = pygame.math.Vector2(playX - self.rect.x, playY - self.rect.y) #uses vector to get aim direction
+        self.rotate(direction.angle_to(pygame.math.Vector2(1, 0))) #calls rotate to vector 
 
-        self.rect.x += self.veloX
-        self.rect.y += self.veloY
+        self.rect.x += self.veloX #displaces by x velo
+        self.rect.y += self.veloY #displaces by y velo
 
+        #following checks if enemy is out of bounds and if it is sets the location to 5 pixels in from the bounds and reverses direction
         if self.rect.left < 0:
             self.rect.left = 10
             self.veloX = -self.veloX
@@ -39,54 +40,51 @@ class Enemy():
             self.rect.bottom = 695
             self.veloY = -self.veloY
         
+         
 
-    def update(self, screen):
+    def update(self, screen): #updates anything important for enemy 
         screen.blit(self.image, self.rect.topleft)
-        for bullet in Bullet_list:
+        for bullet in Bullet_list: #runs through bullet list
             
-            if self.rect.colliderect(bullet.rect) and bullet.ttc < 0:
-                self.hp -= 10
-                Bullet_list.remove(bullet)
-                print("collided")
+            if self.rect.colliderect(bullet.rect) and bullet.ttc < 0: #if there is a collision and it has been the neccessary number of ticks
+                self.hp -= 10 #remove 10 hp
+                Bullet_list.remove(bullet) #remove the bullet
 
             else:
-                bullet.ttc -= 1
-                pass
+                bullet.ttc -= 1 #otherwise reduce #of ticks by 1
                 
-        if self.hp < 0:
+        if self.hp < 0: #if the enemy's hp falls below 0 remove it
                 evils.remove(self)   
                 print("dead")
         
-
-
 class Bullet():
-    def __init__(self, spawnX, spawnY, playX, playY):
+    def __init__(self, spawnX, spawnY, playX, playY): #bullet inherits 
         
-        self.ttc = 20
+        self.ttc = 20 #gets a tick counter to ensure so early collision occur 
         
-        self.radius = 5
+        self.radius = 5 #bullet circle radius
         
-        self.rect = pygame.Rect(spawnX +1, spawnY+1, 2, 2)
+        self.rect = pygame.Rect(spawnX +1, spawnY+1, 2, 2) #rectangle for collisions 
         
-        self.theta = math.atan2(playY - spawnY, playX - spawnX)
+        self.theta = math.atan2(playY - spawnY, playX - spawnX) #given an angle to compute movement 
 
 
 
 
     def Bullet_vector(self, screen):
         
-        v = 8
+        v = 8 #bullet velocity 
         
-        self.rect.centerx += int(v * math.cos(self.theta))
-        self.rect.centery += int(v * math.sin(self.theta))
+        self.rect.centerx += int(v * math.cos(self.theta)) #calc left/right  
+        self.rect.centery += int(v * math.sin(self.theta)) #calc up/down
         
-        pygame.draw.circle(screen, (255, 0, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)
+        pygame.draw.circle(screen, (255, 0, 0), ((self.rect.centerx), (self.rect.centery)), self.radius) #draw the circle 
         
         
-evils = [Enemy(randint(50, 550), randint(50, 550), 4), 
-         Enemy(randint(50, 550), randint(50, 550), 4),
-         Enemy(randint(50, 550), randint(50, 550), 4)
+evils = [Enemy(randint(50, 550), randint(50, 550), randint(3,6)), #list of enemies to iterate through 
+         Enemy(randint(50, 550), randint(50, 550), randint(3,6)),
+         Enemy(randint(50, 550), randint(50, 550), randint(3,6))
         ]
 
-Bullet_list = []
+Bullet_list = [] #bullet list to iterate and append when shot 
 
