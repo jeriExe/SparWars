@@ -1,5 +1,11 @@
-import numpy as np
+import numpy
 
-arr = np.array([1, 2, 3, 4], ndmin=5)
+A = numpy.array([[2, 3],
+                 [2,3]])
 
-print(arr)
+B = numpy.array([[2, 3],
+                 [2,3]])
+
+C = numpy.dot(A,B)
+
+print(C)
