@@ -29,19 +29,13 @@ class Player:
             py -= 5.5
 
         left, middle, right = pygame.mouse.get_pressed()
-        #left = True
         if left:
-            fire = True 
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        fire = True
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_SPACE:
-                        fire = False
-                        
-        if fire:
-            play_bullets.append(PlayBullet(px, py))
+            if pygame.time.get_ticks() %5 == 1:
+                play_bullets.append(PlayBullet(px, py))
+                #fire = True 
+  
+        #if fire:
+            #play_bullets.append(PlayBullet(px, py))
 
         if px >= 1000 - 0.5 * ship.get_width():
             px = 1000 - 0.5 * ship.get_width()
@@ -73,21 +67,21 @@ class Player:
 
 class PlayBullet:
     def __init__(self, bx, by):
-        self.bx = bx
-        self.by = by
+        
+        self.ttc = 20
         self.radius = 5
         self.m_x, self.m_y = pygame.mouse.get_pos()
-        self.flame = pygame.image.load("splosion.png")
-        self.theta = math.atan2(self.m_y - self.by, self.m_x - self.bx)
+        
+        self.rect = pygame.Rect(bx +1, by+1, 2, 2)
+        
+        self.theta = math.atan2(self.m_y - by, self.m_x - bx)
+        
     def bullet_move(self):
-        
         speed = 10
-        self.bx += speed * math.cos(self.theta)
-        self.by += speed * math.sin(self.theta)
         
-        #if self.distance < 15:
-            
-            
+        self.rect.centerx += int(speed * math.cos(self.theta))
+        self.rect.centery += int(speed * math.sin(self.theta))
+        
     def draw(self, screen):
-        #if self.distance > 5:
-        pygame.draw.circle(screen, (45, 102, 194), (int(self.bx), int(self.by)), self.radius)
+        pygame.draw.circle(screen, (0, 255, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)
+            
