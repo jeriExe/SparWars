@@ -4,9 +4,6 @@ import Player as pl
 from random import randint
 
 
-
-
-
 class Enemy():
     def __init__(self, x, y, randvelo): #all enemies inherit the following traits
         self.x = x 
@@ -21,8 +18,6 @@ class Enemy():
         self.image = pygame.transform.rotate(self.original_image, direction.angle_to(pygame.math.Vector2(0,0))) #uses pygame image rotation with respect to origin
         self.rect = self.image.get_rect(center=self.rect.center) #sets the rect obj to the image rotation about the center 
         
-        
-
         self.rect.x += self.veloX #displaces by x velo
         self.rect.y += self.veloY #displaces by y velo
 
@@ -46,7 +41,15 @@ class Enemy():
          
 
     def update(self, screen, play1): #updates anything important for enemy
+        
+        
+        if len(evils) < 3:
+            respawn = Enemy(randint(50, 950), randint(50, 650), randint(3,6))
+            evils.append(respawn)
+                
+        
         screen.blit(self.image, self.rect.topleft)
+        
         for bullet in Bullet_list: #runs through bullet list
             
             if self.rect.colliderect(bullet.rect) and bullet.ttc < 0: #collision between enemy bullets, given the necessary time
@@ -56,14 +59,16 @@ class Enemy():
             else:
                 bullet.ttc -= 1 #otherwise reduce #of ticks by 1
         
-        for bullet in pl.play_bullets: # 
+        for bullet in pl.play_bullets:
             if self.rect.colliderect(bullet.rect): 
+                
                 self.hp -=10 
                 pl.play_bullets.remove(bullet)
                  
         if self.hp < 0: #if the enemy's hp falls below 0 remove it
                 evils.remove(self)  
                 pl.killed += 1
+                
                 if play1.hp >= 150:
                     play1.hp = 200
                 else:

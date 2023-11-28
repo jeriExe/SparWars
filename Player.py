@@ -72,6 +72,7 @@ class Player:
             if self.hp < 0:
                 pygame.quit()
 
+
         
 class PlayBullet:
     def __init__(self, bx, by):
