@@ -51,22 +51,27 @@ def gameDoStuff():
 playing = False
 
 def menuScreen(screen):
-    if pygame.mouse.get_pos()[0] > 50 and pygame.mouse.get_pos()[1] >50:
-        print("True")
-        fontColour = (0,0,0)
-    else:
-        fontColour =(255,255,255)
+    fontColour = (12,123,32)
+    fontColour2 = (24, 246, 64)
     screen.fill((34,34,34))
-    font = pygame.font.SysFont('timesnewroman',  200)
+    font = pygame.font.SysFont('timesnewroman', 200)
     text = font.render('Start', True, (fontColour))
     textrect = text.get_rect()
     textrect.center = (screen_width//2 - textrect.centerx, screen_height//2 -textrect.centery)
+    
+    if textrect.collidepoint(pygame.mouse.get_pos()[0]-(text.get_width()//2), pygame.mouse.get_pos()[1]-(text.get_height()//2)):
+        text = font.render('Start', True, (fontColour2))
+        
+        if pygame.mouse.get_pressed()[0]:
+            global playing
+            playing = True
+    
+    
     screen.blit(text, textrect.center)
-    
-    
     pygame.display.flip()
 
 while running: # mimicking game cycle
+    
     if playing:
         gameDoStuff()
     else:
