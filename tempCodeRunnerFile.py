@@ -1,1 +1,2 @@
-t
+running = False
+            pygame.quit()

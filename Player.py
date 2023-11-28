@@ -1,18 +1,17 @@
 import pygame
+import Enemy as en
 import math
 
 px = 100
 py = 300
 play_bullets = []
-
+killed = 0
 class Player:
     def __init__(self):
         super().__init__()
         self.hp = 100
-        self.dmg = 30
 
     def move(self, px, py, keys):
-        fire = False
         ship = pygame.image.load("ship_little.png").convert_alpha()
         move_left = keys[pygame.K_a]
         move_right = keys[pygame.K_d]
@@ -32,10 +31,7 @@ class Player:
         if left:
             if pygame.time.get_ticks() %5 == 1:
                 play_bullets.append(PlayBullet(px, py))
-                #fire = True 
-  
-        #if fire:
-            #play_bullets.append(PlayBullet(px, py))
+                
 
         if px >= 1000 - 0.5 * ship.get_width():
             px = 1000 - 0.5 * ship.get_width()
@@ -55,16 +51,24 @@ class Player:
         ship = pygame.image.load("ship_little.png").convert_alpha()
 
         player_pos = [px, py]
-        ship_rect = ship.get_rect(center=player_pos)
+        self.ship_rect = ship.get_rect(center=player_pos)
 
         mouse_px, mouse_y = pygame.mouse.get_pos()
         rel_px, rel_py = mouse_px - px, mouse_y - py
         angle = (180 / math.pi) * -math.atan2(rel_py, rel_px)
         rot_image = pygame.transform.rotate(ship, angle)
-        rot_image_rect = rot_image.get_rect(center=ship_rect.center)
+        rot_image_rect = rot_image.get_rect(center=self.ship_rect.center)
 
         return rot_image, rot_image_rect.topleft, angle
-
+    
+    def collide(self):
+        for bullet in en.Bullet_list:
+            if self.ship_rect.colliderect(bullet.rect): #if there is a collision and it has been the neccessary number of ticks
+                self.hp -= 10 #remove 10 hp
+                en.Bullet_list.remove(bullet) #remove the bullet
+            #if self.hp < 0:
+                #pygame.quit()
+                
 class PlayBullet:
     def __init__(self, bx, by):
         

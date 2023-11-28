@@ -2,17 +2,17 @@ import pygame
 import Enemy as en
 import Player as pl
 
-pygame.init()
+pygame.init() #init the pygame mod
 
 screen_width = 1000
 screen_height = 700
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((screen_width, screen_height)) #set resolution 
 
 clock = pygame.time.Clock() # set FPS
 
-running = True
+running = True #bool for while loop
 
-sean = pl.Player()
+play1 = pl.Player()
 
 while running: # mimicking game cycle
     
@@ -41,18 +41,20 @@ while running: # mimicking game cycle
     
     
     keys = pygame.key.get_pressed()
-    rot_image, rot_image_rect, angle = sean.rotate()
+    rot_image, rot_image_rect, angle = play1.rotate()
 
-    pl.px, pl.py = sean.move(pl.px, pl.py, keys)
+    pl.px, pl.py = play1.move(pl.px, pl.py, keys)
     for pbullet in pl.play_bullets:
         pbullet.bullet_move()
         pbullet.draw(screen)
-    sean.draw_cursor(screen)
+    play1.draw_cursor(screen)
     screen.blit(rot_image, rot_image_rect)
+    
+    play1.collide()
     
     pygame.display.flip()
     
-    print(len(en.Bullet_list))
-     
+    
+    
     clock.tick(60)
     

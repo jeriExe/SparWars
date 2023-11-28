@@ -1,12 +1,17 @@
 import pygame
 import math  
+import Player as pl
 from random import randint
+
+
+
+
 
 class Enemy():
     def __init__(self, x, y, randvelo): #all enemies inherit the following traits
         self.x = x 
         self.y = y
-        self.hp = 100 #sets x,y hp
+        self.hp = 300 #sets x,y hp
         self.original_image = self.image = pygame.image.load("CABT13.png") #sets the image
         self.rect = self.image.get_rect(topleft=(x, y)) #sets rect object 
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value 
@@ -42,7 +47,7 @@ class Enemy():
         
          
 
-    def update(self, screen): #updates anything important for enemy 
+    def update(self, screen): #updates anything important for enemy
         screen.blit(self.image, self.rect.topleft)
         for bullet in Bullet_list: #runs through bullet list
             
@@ -52,10 +57,16 @@ class Enemy():
 
             else:
                 bullet.ttc -= 1 #otherwise reduce #of ticks by 1
-                
+        
+        for bullet in pl.play_bullets:
+            if self.rect.colliderect(bullet.rect):
+                self.hp -=10
+                pl.play_bullets.remove(bullet)
+                 
         if self.hp < 0: #if the enemy's hp falls below 0 remove it
-                evils.remove(self)   
-                print("dead")
+                evils.remove(self)  
+                pl.killed += 1
+                print(pl.killed)               
         
 class Bullet():
     def __init__(self, spawnX, spawnY, playX, playY): #bullet inherits 
@@ -68,13 +79,13 @@ class Bullet():
         
         self.theta = math.atan2(playY - spawnY, playX - spawnX) #given an angle to compute movement 
 
-        self.v = 8
+        self.v = 8  #bullet velocity 
 
 
 
     def Bullet_vector(self, screen):
         
-         #bullet velocity 
+        
         
         self.rect.centerx += int(self.v * math.cos(self.theta)) #calc left/right  
         self.rect.centery += int(self.v * math.sin(self.theta)) #calc up/down
