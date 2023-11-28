@@ -1,6 +1,7 @@
 import pygame
 import Enemy as en
 import Player as pl
+import Menus
 
 pygame.init() #init the pygame mod
 
@@ -14,15 +15,7 @@ running = True #bool for while loop
 
 play1 = pl.Player()
 
-while running: # mimicking game cycle
-    
-    for event in pygame.event.get():
-        
-        if event.type == pygame.QUIT: #quit if clicked on X
-            
-            running = False
-            pygame.quit()
-
+def gameDoStuff():
     screen.fill((59, 21, 28)) # wipe screen
     
     for enemy in en.evils:
@@ -53,6 +46,19 @@ while running: # mimicking game cycle
     play1.collide()
     
     pygame.display.flip()
+
+while running: # mimicking game cycle
+    if Menus.playing:
+        gameDoStuff()
+    
+    for event in pygame.event.get():
+        
+        if event.type == pygame.QUIT: #quit if clicked on X
+            
+            running = False
+            pygame.quit()
+
+    
     
     
     
