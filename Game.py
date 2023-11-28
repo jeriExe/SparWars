@@ -22,7 +22,7 @@ def gameDoStuff():
     for enemy in en.evils:
         
         enemy.movement(pl.px, pl.py) # call movement
-        enemy.update(screen) #draw new xy
+        enemy.update(screen, play1) #draw new xy
         
         for bullet in en.Bullet_list:
             bullet.Bullet_vector(screen)
@@ -47,7 +47,7 @@ def gameDoStuff():
     play1.collide()
     
     health = int(play1.hp)
-    pygame.draw.rect(screen, ((0,0,0)), pygame.Rect(30, 30, 100, 10))
+    pygame.draw.rect(screen, ((0,0,0)), pygame.Rect(30, 30, 200, 10))
     pygame.draw.rect(screen, ((255,0,0)), pygame.Rect(30, 30, health, 10))
     
     font = pygame.font.SysFont('arial',  50)
@@ -99,4 +99,3 @@ while running: # mimicking game cycle
     
     
     clock.tick(60)
-    

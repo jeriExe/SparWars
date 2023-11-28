@@ -47,7 +47,7 @@ class Enemy():
         
          
 
-    def update(self, screen): #updates anything important for enemy
+    def update(self, screen, play1): #updates anything important for enemy
         screen.blit(self.image, self.rect.topleft)
         for bullet in Bullet_list: #runs through bullet list
             
@@ -66,6 +66,11 @@ class Enemy():
         if self.hp < 0: #if the enemy's hp falls below 0 remove it
                 evils.remove(self)  
                 pl.killed += 1
+                if play1.hp >= 150:
+                    play1.hp = 200
+                else:
+                    play1.hp += 50
+                
                 print(pl.killed)               
         
 class Bullet():

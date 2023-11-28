@@ -11,7 +11,7 @@ killed = 0 #setting the value of enemies eliminated to zero
 
 class Player:
     def __init__(self): #the basic values associated to the player
-        self.hp = 100 #starting hit points
+        self.hp = 200 #starting hit points
 
     def move(self, px, py, keys): #function to handle movement of player + creation of bullets
         ship = pygame.image.load("ship_little.png").convert_alpha() #loads the png for the player ship
@@ -30,7 +30,7 @@ class Player:
         if move_up:
             py -= 5.5
 
-        left, middle, right = pygame.mouse.get_pressed() #detects if mouse/touchpad keys are clicked (boolean)
+        left = pygame.mouse.get_pressed()[0] #detects if mouse/touchpad keys are clicked (boolean)
         if left:
             if pygame.time.get_ticks() %5 == 1: #sets a reduced rate of fire -> will create a bullet at a continuous delayed rate
                 play_bullets.append(PlayBullet(px, py)) #adds a bullet to the bullet list, with the x/y coordiantes where it was fired
@@ -72,7 +72,8 @@ class Player:
                 en.Bullet_list.remove(bullet) #remove the bullet
             #if self.hp < 0:
                 #pygame.quit()
-                
+
+        
 class PlayBullet:
     def __init__(self, bx, by):
         
@@ -89,6 +90,9 @@ class PlayBullet:
         
         self.rect.centerx += int(speed * math.cos(self.theta))
         self.rect.centery += int(speed * math.sin(self.theta))
+        
+        if self.rect.centerx > 1000 or self.rect.centerx < 0 or self.rect.centery > 700 or self.rect.centerx < 0:
+            play_bullets.remove(self)
         
     def draw(self, screen):
         pygame.draw.circle(screen, (0, 255, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)
