@@ -1,7 +1,6 @@
 import pygame
 import Enemy as en
 import Player as pl
-import Menus
 
 pygame.init() #init the pygame mod
 
@@ -14,6 +13,8 @@ clock = pygame.time.Clock() # set FPS
 running = True #bool for while loop
 
 play1 = pl.Player()
+
+
 
 def gameDoStuff():
     screen.fill((59, 21, 28)) # wipe screen
@@ -47,10 +48,30 @@ def gameDoStuff():
     
     pygame.display.flip()
 
-while running: # mimicking game cycle
-    if Menus.playing:
-        gameDoStuff()
+playing = False
+
+def menuScreen(screen):
+    if pygame.mouse.get_pos()[0] > 50 and pygame.mouse.get_pos()[1] >50:
+        print("True")
+        fontColour = (0,0,0)
+    else:
+        fontColour =(255,255,255)
+    screen.fill((34,34,34))
+    font = pygame.font.SysFont('timesnewroman',  200)
+    text = font.render('Start', True, (fontColour))
+    textrect = text.get_rect()
+    textrect.center = (screen_width//2 - textrect.centerx, screen_height//2 -textrect.centery)
+    screen.blit(text, textrect.center)
     
+    
+    pygame.display.flip()
+
+while running: # mimicking game cycle
+    if playing:
+        gameDoStuff()
+    else:
+        menuScreen(screen)
+            
     for event in pygame.event.get():
         
         if event.type == pygame.QUIT: #quit if clicked on X

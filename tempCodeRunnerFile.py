@@ -1,2 +1,1 @@
-running = False
-            pygame.quit()
+pygame.display.flip()
