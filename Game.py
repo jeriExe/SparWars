@@ -16,6 +16,10 @@ play1 = pl.Player()
 
 playing = False
 
+youWin = False
+
+youLose = False
+
 def gameDoStuff():
     screen.fill((59, 21, 28)) # wipe screen
     
@@ -64,21 +68,39 @@ def gameDoStuff():
     pygame.display.flip()
 
 
-def menuScreen(screen):
-    fontColour = (12,123,32)
+def menuScreen(screen, youWin, youLose):
+    
+    if youLose:
+        msg = "you lost play again?"
+        fontColour = (255,12,32)
+    elif youWin:
+        msg = "YIPPIE PLAY AGAIN?" 
+        fontColour = (12,123,32)
+    else:
+        msg = "START"
+        fontColour = (12,123,32)
+    
+    
+    
     fontColour2 = (24, 246, 64)
     screen.fill((34,34,34))
-    font = pygame.font.SysFont('timesnewroman', 200)
-    text = font.render('Start', True, (fontColour))
+    font = pygame.font.SysFont('timesnewroman', 100)
+    text = font.render(msg, True, (fontColour))
     textrect = text.get_rect()
     textrect.center = (screen_width//2 - textrect.centerx, screen_height//2 -textrect.centery)
     
+    
+    
     if textrect.collidepoint(pygame.mouse.get_pos()[0]-(text.get_width()//2), pygame.mouse.get_pos()[1]-(text.get_height()//2)):
-        text = font.render('Start', True, (fontColour2))
+        text = font.render( msg, True, (fontColour2))
         
         if pygame.mouse.get_pressed()[0]:
             global playing
             playing = True
+            youLose = False
+            youWin = False
+            return youLose, youWin
+
     
     
     screen.blit(text, textrect.center)
@@ -92,32 +114,34 @@ def resetGame():
     pl.killed = 0
     en.evils.clear()
     en.Bullet_list.clear()
+    screen.fill((34,34,34))
+    pygame.time.wait(500)
 
 
 while running: # mimicking game cycle
     
-    if play1.hp <= 0 or pl.killed >= 25:
+    if play1.hp <= 0:
+        youLose = True
         playing = False
         resetGame()
         
-    
+    elif pl.killed >= 2:
+        youWin = True
+        playing = False
+        resetGame()
+        
     if playing:
         gameDoStuff()
     else:
-        menuScreen(screen)
+        menuScreen(screen, youWin, youLose)
     
     
-        
     for event in pygame.event.get():
         
         if event.type == pygame.QUIT: #quit if clicked on X
             
             running = False
             pygame.quit()
-
-    
-    
-    
     
     clock.tick(60)
 
