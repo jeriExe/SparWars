@@ -84,15 +84,29 @@ def menuScreen(screen):
     screen.blit(text, textrect.center)
     pygame.display.flip()
 
+
+def resetGame():
+    play1.hp = 200
+    pl.px = 100
+    pl.py = 300
+    pl.killed = 0
+    en.evils.clear()
+    en.Bullet_list.clear()
+
+
 while running: # mimicking game cycle
+    
+    if play1.hp <= 0 or pl.killed >= 25:
+        playing = False
+        resetGame()
+        
     
     if playing:
         gameDoStuff()
     else:
         menuScreen(screen)
     
-    if play1.hp <= 0:
-        playing = False
+    
         
     for event in pygame.event.get():
         

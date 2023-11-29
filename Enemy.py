@@ -8,7 +8,7 @@ class Enemy():
     def __init__(self, x, y, randvelo): #all enemies inherit the following traits
         self.x = x 
         self.y = y
-        self.hp = 1 #sets x,y hp
+        self.hp = 300 #sets x,y hp
         self.original_image = self.image = pygame.image.load("CABT13.png") #sets the image
         self.rect = self.image.get_rect(topleft=(x, y)) #sets rect object 
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value 
