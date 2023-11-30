@@ -9,7 +9,7 @@ class Enemy():
         self.x = x 
         self.y = y
         self.hp = 300 #sets x,y hp
-        self.original_image = self.image = pygame.image.load("CABT13.png") #sets the image
+        self.original_image = self.image = pygame.image.load("tie_fighter.png") #sets the image
         self.rect = self.image.get_rect(topleft=(x, y)) #sets rect object 
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value 
 

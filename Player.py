@@ -13,7 +13,7 @@ class Player:
     def __init__(self): #the basic values associated to the player
         
         self.hp = 150 #starting hit points
-        self.ship = pygame.image.load("ship_little.png").convert_alpha() #loads the png for the player ship
+        self.ship = pygame.image.load("x_wing.png").convert_alpha() #loads the png for the player ship
         
     def move(self, px, py, keys): #function to handle movement of player + creation of bullets
         
