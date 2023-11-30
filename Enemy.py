@@ -92,7 +92,7 @@ class Bullet():
         self.rect.centerx += int(self.v * math.cos(self.theta)) #calc left/right  
         self.rect.centery += int(self.v * math.sin(self.theta)) #calc up/down
         
-        pygame.draw.circle(screen, (255, 0, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)#draw the circle 
+        pygame.draw.circle(screen, (0, 255, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)#draw the circle 
         
         if self.rect.centerx > 1000 or self.rect.centerx < 0 or self.rect.centery > 700 or self.rect.centerx < 0:
             Bullet_list.remove(self)

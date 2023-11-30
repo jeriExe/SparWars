@@ -21,7 +21,7 @@ youWin = False
 youLose = False
 
 def gameDoStuff():
-    screen.fill((59, 21, 28)) # wipe screen
+    screen.fill((0, 0, 0)) # wipe screen
     
     if len(en.evils) < 3:
         if pygame.time.get_ticks() % 100 == 0:    
@@ -56,7 +56,7 @@ def gameDoStuff():
     play1.collide()
     
     health = int(play1.hp)
-    pygame.draw.rect(screen, ((0,0,0)), pygame.Rect(30, 30, 150, 10))
+    pygame.draw.rect(screen, ((30,30,30)), pygame.Rect(30, 30, 150, 10))
     pygame.draw.rect(screen, ((255,0,0)), pygame.Rect(30, 30, health, 10))
     
     font = pygame.font.SysFont('arial',  50)

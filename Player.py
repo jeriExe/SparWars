@@ -93,6 +93,5 @@ class PlayBullet:
             play_bullets.remove(self) #checks if out of bounds, deletes bullet if it is
         
     def draw(self, screen):
-        pygame.draw.circle(screen, (0, 255, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)
+        pygame.draw.circle(screen, (255, 0, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)
          #draws the bullet w/ its rect on top
-            
