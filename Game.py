@@ -56,7 +56,7 @@ def gameDoStuff():
     play1.collide()
     
     health = int(play1.hp)
-    pygame.draw.rect(screen, ((0,0,0)), pygame.Rect(30, 30, 200, 10))
+    pygame.draw.rect(screen, ((0,0,0)), pygame.Rect(30, 30, 150, 10))
     pygame.draw.rect(screen, ((255,0,0)), pygame.Rect(30, 30, health, 10))
     
     font = pygame.font.SysFont('arial',  50)
@@ -69,14 +69,16 @@ def gameDoStuff():
 
 
 def menuScreen(screen, youWin, youLose):
-    
     if youLose:
-        msg = "you lost play again?"
+        font_size = 75
+        msg = "YOU LOST, PLAY AGAIN?"
         fontColour = (255,12,32)
     elif youWin:
-        msg = "YIPPIE PLAY AGAIN?" 
+        font_size = 75
+        msg = "YIPPIE! PLAY AGAIN?" 
         fontColour = (12,123,32)
     else:
+        font_size = 100
         msg = "START"
         fontColour = (12,123,32)
     
@@ -84,37 +86,32 @@ def menuScreen(screen, youWin, youLose):
     
     fontColour2 = (24, 246, 64)
     screen.fill((34,34,34))
-    font = pygame.font.SysFont('timesnewroman', 100)
+    font = pygame.font.SysFont('timesnewroman', font_size)
     text = font.render(msg, True, (fontColour))
     textrect = text.get_rect()
     textrect.center = (screen_width//2 - textrect.centerx, screen_height//2 -textrect.centery)
     
     
-    
     if textrect.collidepoint(pygame.mouse.get_pos()[0]-(text.get_width()//2), pygame.mouse.get_pos()[1]-(text.get_height()//2)):
-        text = font.render( msg, True, (fontColour2))
+        text = font.render(msg, True, (fontColour2))
         
         if pygame.mouse.get_pressed()[0]:
             global playing
             playing = True
-            youLose = False
-            youWin = False
-            return youLose, youWin
-
-    
     
     screen.blit(text, textrect.center)
     pygame.display.flip()
 
 
 def resetGame():
-    play1.hp = 200
+    screen.fill((34,34,34))
+    play1.hp = 150
     pl.px = 100
     pl.py = 300
     pl.killed = 0
     en.evils.clear()
     en.Bullet_list.clear()
-    screen.fill((34,34,34))
+    pl.play_bullets.clear()
     pygame.time.wait(500)
 
 
@@ -122,15 +119,17 @@ while running: # mimicking game cycle
     
     if play1.hp <= 0:
         youLose = True
-        playing = False
         resetGame()
+        playing = False
         
-    elif pl.killed >= 2:
+    elif pl.killed >= 5:
         youWin = True
-        playing = False
         resetGame()
+        playing = False
         
     if playing:
+        youWin = False
+        youLose = False
         gameDoStuff()
     else:
         menuScreen(screen, youWin, youLose)

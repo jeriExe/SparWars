@@ -12,7 +12,7 @@ killed = 0 #setting the value of enemies eliminated to zero
 class Player:
     def __init__(self): #the basic values associated to the player
         
-        self.hp = 200 #starting hit points
+        self.hp = 150 #starting hit points
         self.ship = pygame.image.load("ship_little.png").convert_alpha() #loads the png for the player ship
         
     def move(self, px, py, keys): #function to handle movement of player + creation of bullets
