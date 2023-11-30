@@ -83,7 +83,6 @@ def menuScreen(screen, youWin, youLose):
         fontColour = (12,123,32)
     
     
-    
     fontColour2 = (24, 246, 64)
     screen.fill((34,34,34))
     font = pygame.font.SysFont('timesnewroman', font_size)
@@ -95,7 +94,7 @@ def menuScreen(screen, youWin, youLose):
     if textrect.collidepoint(pygame.mouse.get_pos()[0]-(text.get_width()//2), pygame.mouse.get_pos()[1]-(text.get_height()//2)):
         text = font.render(msg, True, (fontColour2))
         
-        if pygame.mouse.get_pressed()[0]:
+        if pygame.mouse.get_pressed()[2]:
             global playing
             playing = True
     
@@ -112,7 +111,7 @@ def resetGame():
     en.evils.clear()
     en.Bullet_list.clear()
     pl.play_bullets.clear()
-    pygame.time.wait(500)
+    pygame.time.wait(750)
 
 
 while running: # mimicking game cycle
