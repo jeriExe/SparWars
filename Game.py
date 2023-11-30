@@ -80,16 +80,29 @@ def menuScreen(screen, youWin, youLose):
     else:
         font_size = 100
         msg = "START"
-        fontColour = (12,123,32)
+        fontColour = (155,135,12)
     
     
-    fontColour2 = (24, 246, 64)
+    fontColour2 = (255, 232, 31)
     screen.fill((34,34,34))
     font = pygame.font.SysFont('timesnewroman', font_size)
+    instructfont = pygame.font.SysFont('timesnewroman', 50)
+    titlefont = pygame.font.SysFont("timesnewroman", 175)
     text = font.render(msg, True, (fontColour))
     textrect = text.get_rect()
     textrect.center = (screen_width//2 - textrect.centerx, screen_height//2 -textrect.centery)
     
+    instruct = instructfont.render("USE WASD TO MOVE", True, (255,232,31))
+    instructrect = instruct.get_rect()
+    instructrect.center = (screen_width//2 - instructrect.centerx, 500 -instructrect.centery)
+    
+    title = titlefont.render("SPAR WARS", True, (255,232,31))
+    titlerect = title.get_rect()
+    titlerect.center = (screen_width//2 - titlerect.centerx, 200 -titlerect.centery)
+    
+    instruct2 = instructfont.render("RIGHT CLICK BUTTON TO START", True, (255,232,31))
+    instruct2rect = instruct2.get_rect()
+    instruct2rect.center = (screen_width//2 - instruct2rect.centerx, 550 -instruct2rect.centery)
     
     if textrect.collidepoint(pygame.mouse.get_pos()[0]-(text.get_width()//2), pygame.mouse.get_pos()[1]-(text.get_height()//2)):
         text = font.render(msg, True, (fontColour2))
@@ -97,7 +110,11 @@ def menuScreen(screen, youWin, youLose):
         if pygame.mouse.get_pressed()[2]:
             global playing
             playing = True
-    
+    title = pygame.image.load("new_title.png")
+    screen.blit(title, (500, 100))
+    #screen.blit(title, titlerect.center)
+    screen.blit(instruct2, instruct2rect.center)
+    screen.blit(instruct, instructrect.center)
     screen.blit(text, textrect.center)
     pygame.display.flip()
 
