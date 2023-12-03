@@ -20,11 +20,13 @@ youWin = False
 
 youLose = False 
 
+pygame.mixer.music.load("Act_DS_Escape.wav")
+
 def gameDoStuff():
     screen.fill((0, 0, 0)) # wipe screen
     
     background()
-
+    
     if len(en.evils) < 10:
         if pygame.time.get_ticks() % 100 == 0:    
             respawn = en.Enemy(randint(50, 950), randint(50, 650), randint(3,5))
@@ -152,6 +154,7 @@ while running: # mimicking game cycle
         youLose = False
         gameDoStuff()
     else:
+        pygame.mixer.music.play(-1)
         menuScreen(screen, youWin, youLose)
     
     
