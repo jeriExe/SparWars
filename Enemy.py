@@ -48,13 +48,13 @@ class Enemy():
         for bullet in pl.play_bullets:
             if self.rect.colliderect(bullet.rect): 
                 
-                self.hp -=1
+                self.hp -=10
                 pl.play_bullets.remove(bullet)
              
         if self.hp < 0: #if the enemy's hp falls below 0 remove it
             
             screen.blit(pygame.image.load("splosion.png"), (self.rect.x, self.rect.y))
-            pygame.time.wait(50)
+            pygame.time.wait(20)
             
             evils.remove(self)  
             pl.killed += 1

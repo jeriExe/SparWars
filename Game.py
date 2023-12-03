@@ -12,13 +12,13 @@ clock = pygame.time.Clock() # set FPS
 
 running = True #bool for while loop
 
-play1 = pl.Player()
+play1 = pl.Player() #create instance of player 
 
-playing = False
+playing = False #playing bool that triggers game starting initialized to false
+                #you win/ lose also set to False by default as they trigger end screens
+youWin = False 
 
-youWin = False
-
-youLose = False
+youLose = False 
 
 def gameDoStuff():
     screen.fill((0, 0, 0)) # wipe screen
@@ -131,7 +131,7 @@ def resetGame():
     pl.play_bullets.clear()
 
 def background():
-    for i in range(100):
+    for i in range(20):
         pygame.draw.circle(screen, (255,255,255), (randint(0, 1000), randint(0, 700)), 1, 1)
 
 
