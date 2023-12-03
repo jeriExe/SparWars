@@ -22,8 +22,10 @@ youLose = False
 
 def gameDoStuff():
     screen.fill((0, 0, 0)) # wipe screen
+    if pygame.time.get_ticks() %1 == 0:
+        background()
     
-    if len(en.evils) < 3:
+    if len(en.evils) < 25:
         if pygame.time.get_ticks() % 100 == 0:    
             respawn = en.Enemy(randint(50, 950), randint(50, 650), randint(3,6))
             en.evils.append(respawn)
@@ -126,6 +128,10 @@ def resetGame():
     en.Bullet_list.clear()
     pl.play_bullets.clear()
 
+def background():
+    for i in range(100):
+        pygame.draw.circle(screen, (255,255,255), (randint(0, 1000), randint(0, 700)), 1, 1)
+
 
 while running: # mimicking game cycle
     
@@ -134,7 +140,7 @@ while running: # mimicking game cycle
         resetGame()
         playing = False
         
-    elif pl.killed >= 5:
+    elif pl.killed >= 25:
         youWin = True
         resetGame()
         playing = False

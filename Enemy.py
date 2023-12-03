@@ -8,7 +8,7 @@ class Enemy():
     def __init__(self, x, y, randvelo): #all enemies inherit the following traits
         self.x = x 
         self.y = y
-        self.hp = 300 #sets x,y hp
+        self.hp = 150 #sets x,y hp
         self.original_image = self.image = pygame.image.load("tie_fighter.png") #sets the image
         self.rect = self.image.get_rect(topleft=(x, y)) #sets rect object 
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value 
@@ -59,15 +59,19 @@ class Enemy():
                 
                 self.hp -=10 
                 pl.play_bullets.remove(bullet)
-                 
+             
         if self.hp < 0: #if the enemy's hp falls below 0 remove it
-                evils.remove(self)  
-                pl.killed += 1
+            
+            screen.blit(pygame.image.load("splosion.png"), (self.rect.x, self.rect.y))
+            pygame.time.delay(50)
+            
+            evils.remove(self)  
+            pl.killed += 1
                 
-                if play1.hp >= 150:
-                    play1.hp = 200
-                else:
-                    play1.hp += 50
+            if play1.hp >= 150:
+                play1.hp = 200
+            else:
+                play1.hp += 50
                            
         
 class Bullet():
