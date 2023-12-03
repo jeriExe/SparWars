@@ -6,6 +6,7 @@ import math
 px = 100
 py = 300
 
+
 play_bullets = [] #creating empty list to store bullets when fired
 killed = 0 #setting the value of enemies eliminated to zero
 
@@ -23,13 +24,13 @@ class Player:
         move_up = keys[pygame.K_w]
 
         if move_left: #will adjust the player position (x or y value) depending on key pressed
-            px -= 5.5
+            px -= 8
         if move_right:
-            px += 5.5
+            px += 8
         if move_down:
-            py += 5.5
+            py += 8
         if move_up:
-            py -= 5.5
+            py -= 8
 
         left = pygame.mouse.get_pressed()[0] #detects if mouse/touchpad keys are clicked (boolean)
         if left:
@@ -62,7 +63,7 @@ class Player:
         rot_image = pygame.transform.rotate(self.ship, angle) #rotates the ship png according to the angle
         rot_image_rect = rot_image.get_rect(center=self.ship_rect.center) #rotates the rect of the player
 
-        return rot_image, rot_image_rect.topleft, angle #returns the rotated image, the rotated rect, and the calculated angle
+        return rot_image, rot_image_rect.topleft #returns the rotated image, the rotated rect, and the calculated angle
     
     def collide(self):
         for bullet in en.Bullet_list: #will run for every bullet created
@@ -84,7 +85,7 @@ class PlayBullet:
         self.theta = math.atan2(self.m_y - by, self.m_x - bx) #calculates angle of travel for the bullet from player to cursor
         
     def bullet_move(self):
-        speed = 13 #how fast the bullet will move
+        speed = 15 #how fast the bullet will move
         
         self.rect.centerx += int(speed * math.cos(self.theta)) #adjusts the bullet rect according to speed and angle
         self.rect.centery += int(speed * math.sin(self.theta))

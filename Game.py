@@ -22,21 +22,23 @@ youLose = False
 
 def gameDoStuff():
     screen.fill((0, 0, 0)) # wipe screen
-    if pygame.time.get_ticks() %1 == 0:
-        background()
     
-    if len(en.evils) < 25:
+    background()
+
+    if len(en.evils) < 10:
         if pygame.time.get_ticks() % 100 == 0:    
-            respawn = en.Enemy(randint(50, 950), randint(50, 650), randint(3,6))
+            respawn = en.Enemy(randint(50, 950), randint(50, 650), randint(3,5))
             en.evils.append(respawn)
+            en.evils.append(respawn)
+            
     
     for enemy in en.evils:
         
         enemy.movement(pl.px, pl.py) # call movement
         enemy.update(screen, play1) #draw new xy
         
-        for bullet in en.Bullet_list:
-            bullet.Bullet_vector(screen)
+    for bullet in en.Bullet_list:
+        bullet.Bullet_vector(screen)
         
     if pygame.time.get_ticks() %60 == 0:
          
@@ -46,7 +48,7 @@ def gameDoStuff():
     
     
     keys = pygame.key.get_pressed()
-    rot_image, rot_image_rect, angle = play1.rotate()
+    rot_image, rot_image_rect = play1.rotate()
 
     pl.px, pl.py = play1.move(pl.px, pl.py, keys)
     for pbullet in pl.play_bullets:

@@ -1,14 +1,13 @@
 import pygame
 import math  
 import Player as pl
-from random import randint
 
 
 class Enemy():
     def __init__(self, x, y, randvelo): #all enemies inherit the following traits
         self.x = x 
         self.y = y
-        self.hp = 150 #sets x,y hp
+        self.hp = 80 #sets x,y hp
         self.original_image = self.image = pygame.image.load("tie_fighter.png") #sets the image
         self.rect = self.image.get_rect(topleft=(x, y)) #sets rect object 
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value 
@@ -45,31 +44,23 @@ class Enemy():
         
         screen.blit(self.image, self.rect.topleft)
         
-        for bullet in Bullet_list: #runs through bullet list
-            
-            if self.rect.colliderect(bullet.rect) and bullet.ttc < 0: #collision between enemy bullets, given the necessary time
-                self.hp -= 10 #remove 10 hp
-                Bullet_list.remove(bullet) #remove the bullet
-
-            else:
-                bullet.ttc -= 1 #otherwise reduce #of ticks by 1
         
         for bullet in pl.play_bullets:
             if self.rect.colliderect(bullet.rect): 
                 
-                self.hp -=10 
+                self.hp -=1
                 pl.play_bullets.remove(bullet)
              
         if self.hp < 0: #if the enemy's hp falls below 0 remove it
             
             screen.blit(pygame.image.load("splosion.png"), (self.rect.x, self.rect.y))
-            pygame.time.delay(50)
+            pygame.time.wait(50)
             
             evils.remove(self)  
             pl.killed += 1
                 
-            if play1.hp >= 150:
-                play1.hp = 200
+            if play1.hp >= 100:
+                play1.hp = 150
             else:
                 play1.hp += 50
                            
@@ -85,7 +76,7 @@ class Bullet():
         
         self.theta = math.atan2(playY - spawnY, playX - spawnX) #given an angle to compute movement 
 
-        self.v = 8  #bullet velocity 
+        self.v = 15  #bullet velocity 
 
 
 
