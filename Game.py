@@ -36,7 +36,7 @@ def gameDoStuff(): #function that contains main game sequence/updates
             
     
     for enemy in en.evils: #updates for each enemy on screen
-        enemy.movement(pl.px, pl.py) # call movement
+        enemy.movement(play1.px, play1.py) # call movement
         enemy.update(screen, play1) #draw new xy
         
     for bullet in en.Bullet_list: #updates each bullet position independently
@@ -45,14 +45,15 @@ def gameDoStuff(): #function that contains main game sequence/updates
     if pygame.time.get_ticks() %60 == 0:  #rate at which enemy bullets automatically fire
          
         for enemy in en.evils:  #adds a bullet at the enemy position and adds it to list of total bullets
-            b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
+            b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, play1.px, play1.py)
             en.Bullet_list.append(b1)  
     
     
     keys = pygame.key.get_pressed() #continuous check, determines which keys are being pressed at any time. gets passed to player
     rot_image, rot_image_rect = play1.rotate()
 
-    pl.px, pl.py = play1.move(pl.px, pl.py, keys)
+    play1.px, play1.py = play1.move(keys)
+    
     for pbullet in pl.play_bullets:
         pbullet.bullet_move()
         pbullet.draw(screen)
@@ -125,8 +126,8 @@ def menuScreen(screen, youWin, youLose):
 
 def resetGame():
     play1.hp = 150
-    pl.px = 100
-    pl.py = 300
+    play1.px = 100
+    play1.py = 300
     pl.killed = 0
     en.evils.clear()
     en.Bullet_list.clear()
