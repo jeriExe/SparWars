@@ -23,19 +23,20 @@ youLose = False
 pygame.mixer.music.load("Act_DS_Escape.wav")
 
 def gameDoStuff():
-    screen.fill((0, 0, 0)) # wipe screen
+    screen.fill((0, 0, 0)) # wipe screens
     
     background()
     
-    if len(en.evils) < 10:
+    if len(en.evils) < 1:
         if pygame.time.get_ticks() % 100 == 0:    
-            respawn = en.Enemy(randint(50, 950), randint(50, 650), randint(3,5))
+            respawn = en.Enemy(randint(50, 500), randint(50, 650), randint(3,5))
             en.evils.append(respawn)
-            en.evils.append(respawn)
+            spawn2 = en.Enemy(randint(550, 950), randint(50, 650), randint(3,5))
+            en.evils.append(spawn2)
             
     
     for enemy in en.evils:
-        
+        print(enemy.hp)
         enemy.movement(pl.px, pl.py) # call movement
         enemy.update(screen, play1) #draw new xy
         
@@ -66,7 +67,7 @@ def gameDoStuff():
     pygame.draw.rect(screen, ((255,0,0)), pygame.Rect(30, 30, health, 10))
     
     font = pygame.font.SysFont('arial',  50)
-    text = font.render(str(pl.killed), True, (255,255,255))
+    text = font.render(str(int(pl.killed)), True, (255,255,255))
     textrect = text.get_rect()
     textrect.center = (925, 5)
     screen.blit(text, textrect.center)
@@ -120,7 +121,7 @@ def menuScreen(screen, youWin, youLose):
     screen.blit(instruct2, instruct2rect.center)
     screen.blit(instruct, instructrect.center)
     screen.blit(text, textrect.center)
-    pygame.display.flip()
+    pygame.display.flip()                                                                          
 
 
 def resetGame():
@@ -138,7 +139,7 @@ def background():
         pygame.draw.circle(screen, (255,255,255), (randint(0, 1000), randint(0, 700)), 1, 1)
 
 
-pygame.mixer.music.play(loops=True)
+#pygame.mixer.music.play(loops=True)
 
 while running: # mimicking game cycle
     

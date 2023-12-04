@@ -8,7 +8,7 @@ py = 300
 
 
 play_bullets = [] #creating empty list to store bullets when fired
-killed = 0 #setting the value of enemies eliminated to zero
+killed = 0.0 #setting the value of enemies eliminated to zero
 
 class Player:
     def __init__(self): #the basic values associated to the player

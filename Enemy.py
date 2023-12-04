@@ -51,15 +51,15 @@ class Enemy():
                 self.hp -=10
                 pl.play_bullets.remove(bullet)
              
-        if self.hp < 0: #if the enemy's hp falls below 0 remove it
+        if self.hp <= 0: #if the enemy's hp falls below 0 remove it
             
             screen.blit(pygame.image.load("splosion.png"), (self.rect.x, self.rect.y))
             pygame.time.wait(20)
             
-            evils.remove(self)  
+            evils.remove(self) 
             pl.killed += 1
-                
-            if play1.hp >= 100:
+            
+            if play1.hp >= 100: #siphon for the player, gains back health for every kill
                 play1.hp = 150
             else:
                 play1.hp += 50
