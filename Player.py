@@ -3,8 +3,7 @@ import Enemy as en
 import math
 
 #defining starting place for player ship
-px = 100
-py = 300
+
 
 
 play_bullets = [] #creating empty list to store bullets when fired
@@ -12,11 +11,12 @@ killed = 0.0 #setting the value of enemies eliminated to zero
 
 class Player:
     def __init__(self): #the basic values associated to the player
-        
+        self.px = 100
+        self.py = 300
         self.hp = 150 #starting hit points
         self.ship = pygame.image.load("x_wing.png").convert_alpha() #loads the png for the player ship
         
-    def move(self, px, py, keys): #function to handle movement of player + creation of bullets
+    def move(self, keys): #function to handle movement of player + creation of bullets
         
         move_left = keys[pygame.K_a] #defines the keys "w,a,s,d" as movement controls, detecting if any are pressed down
         move_right = keys[pygame.K_d] #keys evaluates to a boolean, will return true if pressed down
@@ -24,41 +24,41 @@ class Player:
         move_up = keys[pygame.K_w]
 
         if move_left: #will adjust the player position by an adjustable amount (x or y value) depending on key pressed
-            px -= 8
+            self.px -= 8
         if move_right:
-            px += 8
+            self.px += 8
         if move_down:
-            py += 8
+            self.py += 8
         if move_up:
-            py -= 8
+            self.py -= 8
 
         left = pygame.mouse.get_pressed()[0] #detects if mouse/touchpad keys are clicked (boolean)
         if left:
             if pygame.time.get_ticks() %5 == 1: #sets a reduced rate of fire -> will create a bullet at a continuous delayed rate
-                play_bullets.append(PlayBullet(px, py)) #adds a bullet to the bullet list, with the x/y coordiantes where it was fired
+                play_bullets.append(PlayBullet(self.px, self.py)) #adds a bullet to the bullet list, with the x/y coordiantes where it was fired
                 
 
-        if px >= 1000 - 0.5 * self.ship.get_width():  #checks to keep player within the screen, by adjusting x/y values if going off screen
-            px = 1000 - 0.5 * self.ship.get_width() #will reset the player's coordinates to the boundary if it goes over
-        if px <= 0 + 0.5 * self.ship.get_width():
-            px = 0 + 0.5 * self.ship.get_width()
-        if py >= 700 - 0.5 * self.ship.get_height():
-            py = 700 - 0.5 * self.ship.get_height()
-        if py <= 0 + 0.5 * self.ship.get_height():
-            py = 0 + 0.5 * self.ship.get_height()
+        if self.px >= 1000 - 0.5 * self.ship.get_width():  #checks to keep player within the screen, by adjusting x/y values if going off screen
+            self.px = 1000 - 0.5 * self.ship.get_width() #will reset the player's coordinates to the boundary if it goes over
+        if self.px <= 0 + 0.5 * self.ship.get_width():
+            self.px = 0 + 0.5 * self.ship.get_width()
+        if self.py >= 700 - 0.5 * self.ship.get_height():
+            self.py = 700 - 0.5 * self.ship.get_height()
+        if self.py <= 0 + 0.5 * self.ship.get_height():
+            self.py = 0 + 0.5 * self.ship.get_height()
             
-        return px, py  #returns the updated player position 
+        return self.px, self.py  #returns the updated player position 
 
     def draw_cursor(self, screen): 
         aim_px, aim_py = pygame.mouse.get_pos() #grabs cooridnates for cursor from mouse position
         pygame.draw.circle(screen, (0, 255, 0), (aim_px, aim_py), 15, 3) #draws a cursor at the mouse position
 
     def rotate(self): 
-        player_pos = [px, py] #creates a list containing the player's current position
+        player_pos = [self.px, self.py] #creates a list containing the player's current position
         self.ship_rect = (self.ship).get_rect(center=player_pos) #creates a rect () on top of the player
 
         mouse_px, mouse_y = pygame.mouse.get_pos() #gets and stores the current cursor position
-        rel_px, rel_py = mouse_px - px, mouse_y - py #calculates the distance between player and cursor in both x and y
+        rel_px, rel_py = mouse_px - self.px, mouse_y - self.py #calculates the distance between player and cursor in both x and y
         angle = (180 / math.pi) * -math.atan2(rel_py, rel_px) #calculates the angle from the player to the cursor
         rot_image = pygame.transform.rotate(self.ship, angle) #rotates the ship png according to the angle
         rot_image_rect = rot_image.get_rect(center=self.ship_rect.center) #rotates the rect of the player
