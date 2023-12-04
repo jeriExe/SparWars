@@ -131,11 +131,14 @@ def resetGame():
     en.evils.clear()
     en.Bullet_list.clear()
     pl.play_bullets.clear()
+    pygame.mixer.music.rewind()
 
 def background():
     for i in range(20):
         pygame.draw.circle(screen, (255,255,255), (randint(0, 1000), randint(0, 700)), 1, 1)
 
+
+pygame.mixer.music.play(loops=True)
 
 while running: # mimicking game cycle
     
@@ -150,11 +153,13 @@ while running: # mimicking game cycle
         playing = False
         
     if playing:
+        pygame.mixer.music.unpause()
         youWin = False
         youLose = False
         gameDoStuff()
+        
     else:
-        pygame.mixer.music.play(-1)
+        pygame.mixer.music.pause()
         menuScreen(screen, youWin, youLose)
     
     
