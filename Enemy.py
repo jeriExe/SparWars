@@ -67,6 +67,7 @@ class Enemy(): #class with enemy specfic inherited functions
             
             if play1.hp >= 100: #siphon for the player, gains back 50 health for every kill to a maximum of 150hp
                 play1.hp = 150
+            
             else:
                 play1.hp += 50
                            
