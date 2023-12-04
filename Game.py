@@ -20,37 +20,36 @@ youWin = False
 
 youLose = False 
 
-pygame.mixer.music.load("Act_DS_Escape.wav")
+pygame.mixer.music.load("Act_DS_Escape.wav") #loads the main game soundtrack
 
-def gameDoStuff():
+def gameDoStuff(): #function that contains main game sequence/updates
     screen.fill((0, 0, 0)) # wipe screens
     
-    background()
+    background() #generates the starfield
     
-    if len(en.evils) < 1:
-        if pygame.time.get_ticks() % 100 == 0:    
-            respawn = en.Enemy(randint(50, 500), randint(50, 650), randint(3,5))
+    if len(en.evils) < 5: #limits number of enemies on screen at once
+        if pygame.time.get_ticks() % 100 == 0:    #rate at which enemies can spawn
+            respawn = en.Enemy(randint(50, 500), randint(50, 650), randint(3,5)) #generates random position and spawns enemy there
             en.evils.append(respawn)
-            spawn2 = en.Enemy(randint(550, 950), randint(50, 650), randint(3,5))
+            spawn2 = en.Enemy(randint(550, 950), randint(50, 650), randint(3,5)) #spawns enemy in a different random range
             en.evils.append(spawn2)
             
     
-    for enemy in en.evils:
-        print(enemy.hp)
+    for enemy in en.evils: #updates for each enemy on screen
         enemy.movement(pl.px, pl.py) # call movement
         enemy.update(screen, play1) #draw new xy
         
-    for bullet in en.Bullet_list:
+    for bullet in en.Bullet_list: #updates each bullet position independently
         bullet.Bullet_vector(screen)
         
-    if pygame.time.get_ticks() %60 == 0:
+    if pygame.time.get_ticks() %60 == 0:  #rate at which enemy bullets automatically fire
          
-        for enemy in en.evils:
+        for enemy in en.evils:  #adds a bullet at the enemy position and adds it to list of total bullets
             b1 = en.Bullet(enemy.rect.centerx, enemy.rect.centery, pl.px, pl.py)
             en.Bullet_list.append(b1)  
     
     
-    keys = pygame.key.get_pressed()
+    keys = pygame.key.get_pressed() #continuous check, determines which keys are being pressed at any time. gets passed to player
     rot_image, rot_image_rect = play1.rotate()
 
     pl.px, pl.py = play1.move(pl.px, pl.py, keys)
@@ -139,11 +138,13 @@ def background():
         pygame.draw.circle(screen, (255,255,255), (randint(0, 1000), randint(0, 700)), 1, 1)
 
 
-#pygame.mixer.music.play(loops=True)
+pygame.mixer.music.play(loops=True)
 
 while running: # mimicking game cycle
     
     if play1.hp <= 0:
+        lose = pygame.mixer.Sound("wompwomp.wav")
+        pygame.mixer.Sound.play(lose)
         youLose = True
         resetGame()
         playing = False

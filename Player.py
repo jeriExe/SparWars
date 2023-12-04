@@ -23,7 +23,7 @@ class Player:
         move_down = keys[pygame.K_s]
         move_up = keys[pygame.K_w]
 
-        if move_left: #will adjust the player position (x or y value) depending on key pressed
+        if move_left: #will adjust the player position by an adjustable amount (x or y value) depending on key pressed
             px -= 8
         if move_right:
             px += 8
@@ -39,7 +39,7 @@ class Player:
                 
 
         if px >= 1000 - 0.5 * self.ship.get_width():  #checks to keep player within the screen, by adjusting x/y values if going off screen
-            px = 1000 - 0.5 * self.ship.get_width()
+            px = 1000 - 0.5 * self.ship.get_width() #will reset the player's coordinates to the boundary if it goes over
         if px <= 0 + 0.5 * self.ship.get_width():
             px = 0 + 0.5 * self.ship.get_width()
         if py >= 700 - 0.5 * self.ship.get_height():
@@ -55,7 +55,7 @@ class Player:
 
     def rotate(self): 
         player_pos = [px, py] #creates a list containing the player's current position
-        self.ship_rect = (self.ship).get_rect(center=player_pos) #creates a rect on top of the player
+        self.ship_rect = (self.ship).get_rect(center=player_pos) #creates a rect () on top of the player
 
         mouse_px, mouse_y = pygame.mouse.get_pos() #gets and stores the current cursor position
         rel_px, rel_py = mouse_px - px, mouse_y - py #calculates the distance between player and cursor in both x and y
