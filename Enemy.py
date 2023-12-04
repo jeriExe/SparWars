@@ -55,9 +55,9 @@ class Enemy(): #class with enemy specfic inherited functions
                 
                 self.hp -=10 #reduce the enemy's hp by 10
                 
-                pl.play_bullets.remove(bullet) #remove the instance from the player's bullet list as to not have any more collisions
+                pl.play_bullets.remove(bullet) #remove the instance of bullet from the player's bullet list as to not have any more collisions
              
-        if self.hp <= 0: #checks for enemy's death i.e. health below / ==0
+        if self.hp <= 0: #checks for enemy's death i.e. health below / == 0
             
             screen.blit(pygame.image.load("splosion.png"), (self.rect.x, self.rect.y)) #blit an explosion on enemy's place of death 
             pygame.time.wait(20) #wait 20ms for explosion to successfully display  
@@ -65,7 +65,7 @@ class Enemy(): #class with enemy specfic inherited functions
             evils.remove(self) #remove instance of enemy who's hp is below 0
             pl.killed += 1 # add one to player's "score"
             
-            if play1.hp >= 100: #siphon for the player, gains back 50 health for every kill
+            if play1.hp >= 100: #siphon for the player, gains back 50 health for every kill to a maximum of 150hp
                 play1.hp = 150
             else:
                 play1.hp += 50
