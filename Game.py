@@ -55,30 +55,33 @@ def gameDoStuff(): #function that contains main game sequence/updates
 
     play1.px, play1.py = play1.move(keys) #Sean plz explain  player stuff
     
-    for pbullet in pl.play_bullets:
-        pbullet.bullet_move()
-        pbullet.draw(screen)
-    play1.draw_cursor(screen)
-    screen.blit(rot_image, rot_image_rect)
+    for pbullet in pl.play_bullets: #will run for each bullet shot by the player
+        pbullet.bullet_move() #calls the movement update function from Player module
+        pbullet.draw(screen) #blits the bullet & rect on screen
+    play1.draw_cursor(screen)  #draws the cursor on screen
+    screen.blit(rot_image, rot_image_rect) #places the updated player ship & rotation
     
-    play1.collide()
+    play1.collide() #calls collision detection for player
     
-    health = int(play1.hp)
-    pygame.draw.rect(screen, ((30,30,30)), pygame.Rect(30, 30, 150, 10))
-    pygame.draw.rect(screen, ((255,0,0)), pygame.Rect(30, 30, health, 10))
+    health = int(play1.hp) #compoonents for visual player health bar in corner
+    pygame.draw.rect(screen, ((30,30,30)), pygame.Rect(30, 30, 150, 10)) #draws a backdrop
+    pygame.draw.rect(screen, ((255,0,0)), pygame.Rect(30, 30, health, 10)) #player health bar, is syncronized with current player health
     
-    font = pygame.font.SysFont('arial',  50)
-    text = font.render(str(int(pl.killed)), True, (255,255,255))
-    textrect = text.get_rect()
-    textrect.center = (925, 5)
-    screen.blit(text, textrect.center)
+    font = pygame.font.SysFont('arial',  50) #loads font for kill counter
+    text = font.render(str(int(pl.killed)), True, (255,255,255)) #will print the updated number of enemies killed
+    
+    textrect = text.get_rect() #defines a location for the counter and prints it on screen
+    textrect.center = (925, 5) #^
+    screen.blit(text, textrect.center)#^
     
     pygame.display.flip() # "draws" the changed values and positions 
 
 
 def menuScreen(screen, youWin, youLose): #displayed whenever "playing" is False; when you start the game and upon losing or winning
     
-    if youLose: #picks certain colour, font and message to display based on win/lose or first attempt 
+    #picks certain colour, font and message to display based on win/lose or first attempt. 
+    #also scales font to compensate for message length
+    if youLose: 
         font_size = 75
         msg = "YOU LOST, PLAY AGAIN?"
         fontColour = (255,12,32)
@@ -130,21 +133,25 @@ def background(): #this draws 20 stars each tick in random places within the scr
 
 def instructions():
     
-    instructfont = pygame.font.SysFont('timesnewroman', 50)
+    instructfont = pygame.font.SysFont('timesnewroman', 50) #font + size for main text
     
+    #displays the movement instructions on screen
     instruct = instructfont.render("USE WASD TO MOVE", True, (255,232,31))
     instructrect = instruct.get_rect()
     instructrect.center = (screen_width//2 - instructrect.centerx, 550 -instructrect.centery)
     
+    #displays title image on screen
     title = pygame.image.load("Sparwars.png")
     titlerect = title.get_rect()
     titlerect.center = (screen_width//2 - titlerect.centerx, 225 -titlerect.centery)
     screen.blit(title, (titlerect.center))
     
+    #displays start intstructions
     instruct2 = instructfont.render("RIGHT CLICK BUTTON TO START", True, (255,232,31))
     instruct2rect = instruct2.get_rect()
     instruct2rect.center = (screen_width//2 - instruct2rect.centerx, 600 -instruct2rect.centery)
     
+    #prints the above on screen
     screen.blit(instruct2, instruct2rect.center)
     screen.blit(instruct, instructrect.center)
     
@@ -155,7 +162,7 @@ while running: # mimicking game cycle
     
     if play1.hp <= 0: #is the player dead?
         
-        lose = pygame.mixer.Sound("wompwomp.wav")
+        lose = pygame.mixer.Sound("wompwomp.wav") #sound effect if player loses
         pygame.mixer.Sound.play(lose) 
         
         youLose = True #if your hp drops below 0 you lose and this will ensure the right endscreen is displayed
