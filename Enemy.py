@@ -9,11 +9,11 @@ class Enemy(): #class with enemy specfic inherited functions
         
         self.x = x 
         self.y = y  
-                        #sets initial x,y posisition and hp
+                        #sets initial x,y position and hp
         self.hp = 80 
         
         self.original_image = self.image = pygame.image.load("tie_fighter.png") #sets the image based on a relative path
-        self.rect = self.image.get_rect(topleft=(x, y)) #sets rectangle object based on image dimensions 
+        self.rect = self.image.get_rect(topleft=(x, y)) #sets rectangle object based on image dimensions for collisions and rotational movement
         
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value (4-6px)
 
