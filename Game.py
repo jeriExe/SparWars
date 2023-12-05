@@ -196,5 +196,8 @@ while running: # mimicking game cycle
     clock.tick(60) #sets the tick rate "essentially the frame rate" to 60
 
 #Citations:
+# Whittaker, David. "Act_DS_Escape". Lego Star Wars II: The Original Trilogy, 1st Edition, LucasArts, 2006
+# https://downloads.khinsider.com/game-soundtracks/album/lego-star-wars-ii-the-original-trilogy
 
-
+# "wompwomp.wav"
+# https://www.myinstants.com/en/instant/womp-womp-17667/?utm_source=copy&utm_medium=share 
