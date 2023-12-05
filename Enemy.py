@@ -17,16 +17,22 @@ class Enemy(): #class with enemy specfic inherited functions
         
         self.veloY = self.veloX = randvelo #gives the x,y velocities a random value (4-6px)
 
-    def movement(self, playX, playY): #logic for enemy movement
+    def movement(self, playX, playY): #logic for enemy movementS
         
-        direction = pygame.math.Vector2(playX - self.rect.x, playY - self.rect.y) #uses pygame vector to get aim direction; this makes the enemy aim at player
-        self.image = pygame.transform.rotate(self.original_image, direction.angle_to(pygame.math.Vector2(0,0))) #uses pygame image rotation with respect to origin
-        self.rect = self.image.get_rect(center=self.rect.center) #sets the rect object to the image rotation about the center 
+        #uses pygame vector to get aim direction; this makes the enemy aim at player
+        direction = pygame.math.Vector2(playX - self.rect.x, playY - self.rect.y) 
+        
+        #uses pygame image rotation with respect to origin
+        self.image = pygame.transform.rotate(self.original_image, direction.angle_to(pygame.math.Vector2(0,0))) 
+        
+        #sets the rect object to the image rotation about the center 
+        self.rect = self.image.get_rect(center=self.rect.center) 
         
         self.rect.x += self.veloX #displaces by x velocity 
         self.rect.y += self.veloY #displaces by y velocity 
 
-        #following checks if enemy is out of bounds and if it is sets the location to 10 pixels in from the bounds and reverses direction
+        #if enemy is out of bounds sets the location to 10 pixels in from the bounds and reverses direction
+        #ensures enemies stay inside each bounding line
         if self.rect.left < 0: 
             self.rect.left = 10
             self.veloX = -self.veloX
@@ -81,7 +87,7 @@ class Bullet(): #class with bullet specfic inherited functions
         self.rect = pygame.Rect(spawnX +1, spawnY+1, 2, 2) #rectangle for collisions 
         
         self.theta = math.atan2(playY - spawnY, playX - spawnX) #given an angle to compute movement, 
-                                    #the angle is with respect to the enemy to shoot towards player
+                                    #the angle is with respect to the enemy in order to shoot towards player 
 
         self.v = 15  #bullet velocity 
 

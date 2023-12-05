@@ -99,7 +99,7 @@ def menuScreen(screen, youWin, youLose): #displayed whenever "playing" is False;
     textrect = text.get_rect() #gets a rectangle object from the dimensions of the text
     textrect.center = (screen_width//2 - textrect.centerx, 475 -textrect.centery) #assigns value to text
     
-    intructions() #shows the unchanging instructions and title screen
+    instructions() #shows the unchanging instructions and title screen
 
         #below checks if the cursor is intersecting the start button
     if textrect.collidepoint(pygame.mouse.get_pos()[0]-(text.get_width()//2), pygame.mouse.get_pos()[1]-(text.get_height()//2)): 
@@ -128,7 +128,7 @@ def background(): #this draws 20 stars each tick in random places within the scr
     for i in range(20):
         pygame.draw.circle(screen, (255,255,255), (randint(0, 1000), randint(0, 700)), 1, 1) #small 1 pixel "circles" - basically just pixels
 
-def intructions():
+def instructions():
     
     instructfont = pygame.font.SysFont('timesnewroman', 50)
     
