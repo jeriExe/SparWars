@@ -195,6 +195,6 @@ while running: # mimicking game cycle
     
     clock.tick(60) #sets the tick rate "essentially the frame rate" to 60
 
-#meow
+#Citations:
 
 

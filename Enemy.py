@@ -107,3 +107,10 @@ evils = [] #list of enemies set to be empty upon starting the game, populated in
 
 Bullet_list = [] #bullet list to iterate and append when enemy shoots
 
+#Citations:
+
+#"tie_fighter.png"
+#https://pixelblock.tumblr.com/post/43241576393/a-tie-fighter-the-mass-produced-mainstay-of-the by PixelBlock 
+
+#"splosion.png"
+#https://www.pixilart.com/art/explosion-9b8ce336762d2d0 by PixelGuy246

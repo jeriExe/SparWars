@@ -96,3 +96,9 @@ class PlayBullet:
     def draw(self, screen):
         pygame.draw.circle(screen, (255, 0, 0), ((self.rect.centerx), (self.rect.centery)), self.radius)
          #draws the bullet w/ its rect on top
+         
+
+#Citations:
+
+#"x_wing.png"
+#https://www.pngwing.com/en/free-png-nsvis by PNGWing artists 
