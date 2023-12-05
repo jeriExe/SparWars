@@ -22,6 +22,8 @@ youLose = False
 
 pygame.mixer.music.load("Act_DS_Escape.wav") #loads the main game soundtrack
 
+pygame.mixer.music.play(loops=True) #plays the music by default 
+
 def gameDoStuff(): #function that contains main game sequence/updates
     screen.fill((0, 0, 0)) # wipe screens
     
@@ -34,7 +36,6 @@ def gameDoStuff(): #function that contains main game sequence/updates
             spawn2 = en.Enemy(randint(550, 950), randint(50, 650), randint(3,5)) #spawns enemy in a different random range
             en.evils.append(spawn2) #appends to list so Enemy methods may be applied 
             
-    
     for enemy in en.evils: #updates for each enemy on screen
         enemy.movement(play1.px, play1.py) # call movement
         enemy.update(screen, play1) #draw new xy
@@ -76,7 +77,6 @@ def gameDoStuff(): #function that contains main game sequence/updates
     
     pygame.display.flip() # "draws" the changed values and positions 
 
-
 def menuScreen(screen, youWin, youLose): #displayed whenever "playing" is False; when you start the game and upon losing or winning
     
     #picks certain colour, font and message to display based on win/lose or first attempt. 
@@ -116,7 +116,6 @@ def menuScreen(screen, youWin, youLose): #displayed whenever "playing" is False;
     
     pygame.display.flip() # "draws" the changed values and positions                                                                          
 
-
 def resetGame(): #resets the game variables such that upon playing a new round it starts "fresh"
     play1.hp = 150 
     play1.px = 100 #resets player positions and hp to the default 
@@ -154,9 +153,6 @@ def instructions():
     #prints the above on screen
     screen.blit(instruct2, instruct2rect.center)
     screen.blit(instruct, instructrect.center)
-    
-
-pygame.mixer.music.play(loops=True) #plays the music by default 
 
 while running: # mimicking game cycle
     
@@ -167,14 +163,12 @@ while running: # mimicking game cycle
         
         youLose = True #if your hp drops below 0 you lose and this will ensure the right endscreen is displayed
         playing = False #stop the playing game cycle/loop
-        
         resetGame() #reset the game such that upon replaying none of the values save
         
     elif pl.killed >= 25: #have you destroyed 25 enemies?
         
         youWin = True #if you destroy 25 enemies you win! and this will ensure the right endscreen is displayed
         playing = False #stop the playing game cycle/loop
-        
         resetGame() #reset the game such that upon replaying none of the values save
         
     if playing:
@@ -183,7 +177,6 @@ while running: # mimicking game cycle
         
         youWin = False #after starting resets win/lose bools to for the subsequent round
         youLose = False
-        
         gameDoStuff() #if you're playing the game run the game loop 
         
     else:
